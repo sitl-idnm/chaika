@@ -4,6 +4,7 @@ import { Logo } from '@ui/logo'
 import { TrackedLink } from '@/components/analytics/TrackedLink'
 import { YandexMap } from '@/components/widgets/YandexMap'
 import { GOALS } from '@/shared/lib/metrika'
+import { CONTACTS } from '@/shared/const/contacts'
 
 import styles from './footer.module.scss'
 
@@ -58,7 +59,7 @@ const Footer: FC = () => {
           </div>
         </div>
 
-        <a href="#" className={styles.logoLink} aria-label="Чайка — верёвочный парк">
+        <a href="/" className={styles.logoLink} aria-label="Чайка — верёвочный парк">
           <Logo width={85} />
         </a>
 
@@ -66,7 +67,7 @@ const Footer: FC = () => {
           <div className={styles.mapBlock}>
             <YandexMap />
             <a
-              href="https://yandex.ru/maps/org/chayka/193894342382/"
+              href={CONTACTS.maps}
               target="_blank"
               rel="noreferrer"
               className={styles.route}
@@ -78,7 +79,9 @@ const Footer: FC = () => {
 
           <div className={styles.info}>
             <TrackedLink
-              href="#"
+              href={CONTACTS.vk}
+              target="_blank"
+              rel="noreferrer"
               className={styles.infoRow}
               goal={GOALS.clickVk}
               goalParams={{ place: 'footer' }}
@@ -114,7 +117,7 @@ const Footer: FC = () => {
           <div className={styles.buttons}>
             <TrackedLink
               className={styles.contactBtn}
-              href="tel:+7"
+              href={CONTACTS.phoneHref}
               goal={GOALS.clickPhone}
               goalParams={{ place: 'footer' }}
             >
@@ -123,7 +126,9 @@ const Footer: FC = () => {
             </TrackedLink>
             <TrackedLink
               className={styles.contactBtn}
-              href="#"
+              href={CONTACTS.telegram}
+              target="_blank"
+              rel="noreferrer"
               goal={GOALS.clickTelegram}
               goalParams={{ place: 'footer' }}
             >

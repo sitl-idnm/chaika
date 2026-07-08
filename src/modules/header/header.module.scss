@@ -1,9 +1,12 @@
 @use '@styles/mixins';
 
 .root {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: var(--green-main);
   padding-block: 32px;
+  box-shadow: 0 4px 24px rgba(21, 21, 21, 0.12);
 
   @include mixins.tablet {
     padding-block: 20px;

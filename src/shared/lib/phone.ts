@@ -15,11 +15,14 @@ export function formatRuPhone(input: string): string {
   digits = digits.slice(0, 11)
 
   const p = digits.slice(1) // up to 10 national digits
+  // Separators are only appended once the *next* group has a digit, so the
+  // string never ends in a dangling separator (keeps backspace predictable).
   let out = '+7'
-  if (p.length) out += ` (${p.slice(0, 3)}`
-  if (p.length >= 3) out += `) ${p.slice(3, 6)}`
-  if (p.length >= 6) out += `-${p.slice(6, 8)}`
-  if (p.length >= 8) out += `-${p.slice(8, 10)}`
+  if (p.length > 0) out += ` (${p.slice(0, 3)}`
+  if (p.length >= 3) out += ')'
+  if (p.length > 3) out += ` ${p.slice(3, 6)}`
+  if (p.length > 6) out += `-${p.slice(6, 8)}`
+  if (p.length > 8) out += `-${p.slice(8, 10)}`
   return out
 }
 

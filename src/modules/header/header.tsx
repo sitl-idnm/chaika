@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { CONTACTS } from '@/shared/const/contacts'
 
 import styles from './header.module.scss'
 
@@ -31,7 +32,7 @@ const Header: FC = () => {
         </nav>
 
         <a
-          href="#"
+          href="/"
           className={styles.logoLink}
           aria-label="Чайка — верёвочный парк"
         >
@@ -41,7 +42,7 @@ const Header: FC = () => {
         <div className={styles.right}>
           <a
             className={styles.routeLink}
-            href="https://yandex.ru/maps/org/chayka/193894342382/"
+            href={CONTACTS.maps}
             target="_blank"
             rel="noreferrer"
           >
@@ -51,21 +52,25 @@ const Header: FC = () => {
 
           <div className={styles.contacts}>
             <a
-              href="#"
+              href={CONTACTS.telegram}
+              target="_blank"
+              rel="noreferrer"
               aria-label="Telegram"
               onClick={() => ymGoal(GOALS.clickTelegram, { place: 'header' })}
             >
               <Glyph name="telegram" className={styles.glyph} />
             </a>
             <a
-              href="tel:+7"
+              href={CONTACTS.phoneHref}
               aria-label="Позвонить"
               onClick={() => ymGoal(GOALS.clickPhone, { place: 'header' })}
             >
               <Glyph name="phone" className={styles.glyph} />
             </a>
             <a
-              href="#"
+              href={CONTACTS.vk}
+              target="_blank"
+              rel="noreferrer"
               aria-label="ВКонтакте"
               className={styles.vkLink}
               onClick={() => ymGoal(GOALS.clickVk, { place: 'header' })}
@@ -102,7 +107,13 @@ const Header: FC = () => {
               {link.label}
             </a>
           ))}
-          <a href="#" className={styles.mobileRoute} onClick={closeMenu}>
+          <a
+            href={CONTACTS.maps}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.mobileRoute}
+            onClick={closeMenu}
+          >
             <Glyph name="map-pin" className={styles.glyph} />
             Построить маршрут
           </a>

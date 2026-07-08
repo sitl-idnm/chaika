@@ -2,6 +2,7 @@
 
 import { FC } from 'react'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { CONTACTS } from '@/shared/const/contacts'
 
 import styles from './modal.module.scss'
 
@@ -12,7 +13,9 @@ export const ThanksBody: FC = () => (
       Подписывайтесь на наш канал в VK, чтобы следить за акциями и новостями:
     </p>
     <a
-      href="#"
+      href={CONTACTS.vk}
+      target="_blank"
+      rel="noreferrer"
       className={styles.subscribe}
       onClick={() => ymGoal(GOALS.clickVk)}
     >

@@ -111,7 +111,9 @@ body {
   line-height: 1.2;
   color: var(--text-primary);
   background: var(--bg-page);
-  overflow-x: hidden;
+  // `clip` (not `hidden`) so the sticky header isn't trapped in a scroll
+  // container while still preventing horizontal scroll from full-bleed bands.
+  overflow-x: clip;
 }
 
 img {

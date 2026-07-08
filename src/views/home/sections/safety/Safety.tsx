@@ -9,6 +9,7 @@ import { PhoneInput } from '@/components/form/PhoneInput'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { CONTACTS } from '@/shared/const/contacts'
 
 import styles from './Safety.module.scss'
 
@@ -145,7 +146,7 @@ const Safety: FC = () => {
               <div className={styles.actions}>
                 <a
                   className={styles.contactBtn}
-                  href="tel:+7"
+                  href={CONTACTS.phoneHref}
                   onClick={() => ymGoal(GOALS.clickPhone, { place: 'safety' })}
                 >
                   <Glyph name="phone" />
@@ -153,7 +154,9 @@ const Safety: FC = () => {
                 </a>
                 <a
                   className={styles.contactBtn}
-                  href="#"
+                  href={CONTACTS.telegram}
+                  target="_blank"
+                  rel="noreferrer"
                   onClick={() =>
                     ymGoal(GOALS.clickTelegram, { place: 'safety' })
                   }

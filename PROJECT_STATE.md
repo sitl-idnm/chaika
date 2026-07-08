@@ -142,6 +142,21 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
   | `submit_error` (param `form`) | send failure |
   | `click_phone` / `click_telegram` / `click_vk` (param `place`) | header, footer, safety, thanks |
   | `cookie_accept` | cookie banner |
+- **Goal registration**: `scripts/create-ym-goals.mjs` creates all goals in the
+  counter via the Management API (`YM_OAUTH_TOKEN` env, scope `metrika:write`) —
+  no manual dashboard work. reachGoal goals are type `action`.
+
+### Contacts (single source)
+- `src/shared/const/contacts.ts` — phone `+7 926 242-06-08`, VK
+  `vk.com/chaika_park`, Telegram `t.me/parkchaika`, site `chaikapark.ru`, Yandex
+  maps org. Wired into header/footer/safety/thanks (external links `_blank`).
+- **Telegram creds** (`.env.local`) filled + verified live (bot
+  `@ropeparkchaika_bot`, chat `-1004317842742`).
+
+### Sticky header
+- `header.module.scss .root` → `position: sticky; top:0; z-index:50`. Required
+  changing `body` `overflow-x: hidden` → `clip` in `global.scss` (hidden traps
+  sticky in a scroll container).
 
 ---
 
