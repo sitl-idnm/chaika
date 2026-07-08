@@ -1,0 +1,8 @@
+// breakpoints (Чайка landing: desktop ≥901 · tablet 561–900 · mobile ≤560)
+$tablet: 900px;
+$mobile: 560px;
+
+// transitions
+$transition-duration: 0.16s;
+$transition-timing-function: ease;
+$transition: $transition-duration $transition-timing-function;

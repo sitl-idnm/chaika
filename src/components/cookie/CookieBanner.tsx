@@ -1,0 +1,39 @@
+'use client'
+
+import { FC, useEffect, useState } from 'react'
+import { Button } from '@ui/button'
+import { GOALS, ymGoal } from '@/shared/lib/metrika'
+
+import styles from './cookie.module.scss'
+
+const STORAGE_KEY = 'chaika-cookie-accepted'
+
+export const CookieBanner: FC = () => {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    if (!localStorage.getItem(STORAGE_KEY)) setVisible(true)
+  }, [])
+
+  const accept = () => {
+    localStorage.setItem(STORAGE_KEY, '1')
+    ymGoal(GOALS.cookieAccept)
+    setVisible(false)
+  }
+
+  if (!visible) return null
+
+  return (
+    <div className={styles.root} role="dialog" aria-label="Cookie">
+      <p className={styles.text}>
+        Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим
+        сайтом. Продолжая просмотр, вы соглашаетесь на их использование.
+        Подробнее — в{' '}
+        <a href="/privacy">Политике обработки персональных данных</a>
+      </p>
+      <Button variant="orange" onClick={accept}>
+        Принять
+      </Button>
+    </div>
+  )
+}

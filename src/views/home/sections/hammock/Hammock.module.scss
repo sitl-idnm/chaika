@@ -1,0 +1,76 @@
+@use '@styles/mixins';
+
+.root {
+  padding-block: 32px;
+  background: var(--green-main);
+}
+
+.wrap {
+  @include mixins.container;
+}
+
+.inner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--light-main);
+
+  @include mixins.mobile {
+    padding: 20px;
+  }
+
+  p {
+    margin: 0;
+    max-width: 1248px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--dark-800);
+    white-space: pre-line;
+  }
+}
+
+.ropeDeco {
+  position: absolute;
+  top: -4px;
+  right: 32px;
+  height: 352px;
+  width: auto;
+  pointer-events: none;
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  max-width: 727px;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--green-main);
+
+  @include mixins.tablet {
+    font-size: 32px;
+  }
+}
+
+.free {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--dark-800);
+}
+
+.freeIcon {
+  flex-shrink: 0;
+  color: var(--orange-main);
+}
+
+.accent {
+  color: var(--orange-main);
+}

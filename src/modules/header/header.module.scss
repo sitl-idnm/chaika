@@ -1,0 +1,188 @@
+@use '@styles/mixins';
+
+.root {
+  position: relative;
+  background: var(--green-main);
+  padding-block: 32px;
+
+  @include mixins.tablet {
+    padding-block: 20px;
+  }
+
+  @include mixins.mobile {
+    padding-block: 16px;
+  }
+}
+
+.inner {
+  @include mixins.container;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 32px;
+
+  @include mixins.tablet {
+    display: none;
+  }
+}
+
+.navLink {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  color: var(--light-main);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logoLink {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  flex-shrink: 0;
+  line-height: 0;
+  transform: translate(-50%, -50%);
+
+  @include mixins.tablet {
+    position: static;
+    transform: none;
+  }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  color: var(--light-main);
+
+  @include mixins.tablet {
+    gap: 16px;
+  }
+}
+
+.routeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--light-main);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.routeText {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  @include mixins.tablet {
+    display: none;
+  }
+}
+
+.contacts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--light-main);
+}
+
+.glyph {
+  width: 24px;
+  height: 24px;
+}
+
+.vkLink {
+  display: inline-flex;
+  align-items: center;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.vkIcon {
+  width: 32px;
+  height: 18px;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  cursor: pointer;
+
+  span {
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--light-main);
+    transition: transform 0.16s ease, opacity 0.16s ease;
+  }
+
+  @include mixins.tablet {
+    display: flex;
+  }
+}
+
+.burgerOpen {
+  span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  span:nth-child(2) {
+    opacity: 0;
+  }
+
+  span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+.mobileMenu {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  right: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 12px 32px rgba(21, 21, 21, 0.16);
+
+  @include mixins.mobile {
+    right: 12px;
+    left: 12px;
+  }
+}
+
+.mobileLink,
+.mobileRoute {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--green-main);
+
+  &:hover {
+    background: var(--surface-card);
+  }
+}

@@ -1,0 +1,233 @@
+@use '@styles/mixins';
+
+.root {
+  @include mixins.section-block;
+}
+
+.wrap {
+  @include mixins.container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+.title {
+  @include mixins.section-title;
+
+  text-align: center;
+}
+
+/* ---- Description panel ---- */
+.desc {
+  position: relative;
+  overflow: hidden;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--green-main);
+  color: var(--light-main);
+  text-align: center;
+
+  @include mixins.mobile {
+    padding: 20px;
+  }
+
+  p {
+    margin: 0;
+    max-width: 935px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+}
+
+.withIcon {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.descIcon {
+  color: var(--light-main);
+  flex-shrink: 0;
+}
+
+.ropeDeco {
+  position: absolute;
+  top: -4px;
+  right: 32px;
+  height: 352px;
+  width: auto;
+  pointer-events: none;
+}
+
+/* ---- Price table ---- */
+.priceTable {
+  align-self: stretch;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 18px;
+
+  th,
+  td {
+    padding: 16px;
+    text-align: left;
+  }
+
+  thead th {
+    font-weight: 500;
+    color: var(--light-main);
+    background: var(--green-main);
+
+    &:first-child {
+      border-top-left-radius: 6px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 6px;
+    }
+  }
+
+  tbody td {
+    color: var(--dark-800);
+    font-weight: 400;
+  }
+
+  tbody td:last-child {
+    color: var(--dark-main);
+    font-weight: 500;
+  }
+
+  @include mixins.mobile {
+    font-size: 13px;
+
+    th,
+    td {
+      padding: 8px;
+    }
+  }
+}
+
+/* ---- CTA row (centered by default; Батут overrides to left) ---- */
+.cta {
+  display: flex;
+  gap: 12px;
+
+  @include mixins.mobile {
+    flex-direction: column;
+    align-self: stretch;
+  }
+}
+
+/* ---- Track maps ---- */
+.maps {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  align-self: stretch;
+  flex-wrap: wrap;
+
+  @include mixins.tablet {
+    justify-content: center;
+  }
+}
+
+.map {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  img {
+    height: 200px;
+    width: auto;
+  }
+
+  @include mixins.mobile {
+    min-width: 45%;
+
+    img {
+      height: 150px;
+    }
+  }
+}
+
+.cap {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--dark-800);
+}
+
+/* ---- Trampoline card ---- */
+.trampOuter {
+  align-self: stretch;
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--green-main);
+
+  @include mixins.mobile {
+    padding: 20px;
+  }
+}
+
+.trampInner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 16px;
+  background: var(--light-main);
+
+  @include mixins.mobile {
+    padding: 20px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--dark-800);
+  }
+
+  .cta {
+    align-self: flex-start;
+  }
+}
+
+.trampTitle {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--green-main);
+
+  @include mixins.tablet {
+    font-size: 32px;
+  }
+}
+
+.trampPrice {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 12px;
+  border-radius: 100px;
+  background: var(--green-200);
+  color: var(--green-main);
+  font-size: 18px;
+  font-weight: 500;
+}

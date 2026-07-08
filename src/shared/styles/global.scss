@@ -1,0 +1,162 @@
+@import 'mixins';
+
+:root {
+  /* stylelint-disable */
+
+  /* ---- Fonts (mapped from next/font — do NOT redefine --font-inter-tight/--font-arsenal here) ---- */
+  --font-ui: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-logo: var(--font-arsenal), Georgia, 'Times New Roman', serif;
+
+  /* ---- Brand base ---- */
+  --green-main: rgb(53, 92, 75);
+  --green-800: rgba(53, 92, 75, 0.8);
+  --green-600: rgba(53, 92, 75, 0.6);
+  --green-400: rgba(53, 92, 75, 0.4);
+  --green-200: rgba(53, 92, 75, 0.2);
+  --green-100: rgba(53, 92, 75, 0.1);
+
+  --orange-main: rgb(217, 107, 43);
+  --orange-active: rgb(205, 90, 24);
+  --orange-800: rgba(217, 107, 43, 0.8);
+  --orange-600: rgba(217, 107, 43, 0.6);
+  --orange-400: rgba(217, 107, 43, 0.4);
+  --orange-200: rgba(217, 107, 43, 0.2);
+  --orange-100: rgba(217, 107, 43, 0.1);
+
+  /* ---- Neutrals ---- */
+  --ink: rgb(15, 15, 15);
+  --dark-main: rgb(21, 21, 21);
+  --dark-secondary: rgb(34, 34, 34);
+  --dark-800: rgba(21, 21, 21, 0.8);
+  --dark-600: rgba(21, 21, 21, 0.6);
+  --dark-400: rgba(21, 21, 21, 0.4);
+  --dark-200: rgba(21, 21, 21, 0.2);
+  --dark-100: rgba(21, 21, 21, 0.1);
+  --black: rgb(22, 24, 27);
+
+  --light-main: rgb(240, 240, 240);
+  --light-800: rgba(240, 240, 240, 0.8);
+  --light-600: rgba(240, 240, 240, 0.6);
+  --light-400: rgba(240, 240, 240, 0.4);
+  --light-200: rgba(240, 240, 240, 0.2);
+  --light-100: rgba(240, 240, 240, 0.1);
+
+  --white: rgb(255, 255, 255);
+  --white-100: rgb(247, 247, 247);
+  --surface-card: rgb(244, 244, 244);
+
+  /* ---- Semantic status ---- */
+  --critical: rgb(223, 27, 31);
+  --good: rgb(26, 144, 0);
+  --normal: rgb(255, 111, 0);
+
+  /* ---- Semantic aliases ---- */
+  --bg-page: var(--light-main);
+  --bg-surface: var(--surface-card);
+  --text-primary: var(--dark-main);
+  --text-heading: var(--ink);
+  --text-muted: var(--dark-600);
+  --text-on-dark: var(--light-main);
+  --text-accent: var(--green-main);
+  --text-cta: var(--orange-main);
+
+  /* ---- Spacing scale (x1–x10) ---- */
+  --space-x1: 4px;
+  --space-x2: 6px;
+  --space-x3: 8px;
+  --space-x4: 12px;
+  --space-x5: 16px;
+  --space-x6: 24px;
+  --space-x7: 32px;
+  --space-x8: 48px;
+  --space-x9: 64px;
+  --space-x10: 88px;
+
+  /* ---- Radii ---- */
+  --radius-input: 8px;
+  --radius-button: 12px;
+  --radius-chip: 4px;
+  --radius-card: 24px;
+  --radius-panel: 48px;
+
+  /* ---- Layout ---- */
+  --container-max: 1312px;
+  --gutter: 64px;
+  /* stylelint-enable */
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity $transition;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+  margin: 0;
+}
+
+button {
+  @include reset-btn;
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+
+  main {
+    flex-grow: 1;
+  }
+}

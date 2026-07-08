@@ -1,0 +1,245 @@
+@use '@styles/mixins';
+
+.root {
+  @include mixins.section-block;
+}
+
+.wrap {
+  @include mixins.container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.title {
+  @include mixins.section-title;
+}
+
+/* ---- Chips — infinite marquee ---- */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent
+  );
+
+  &:hover .track {
+    animation-play-state: paused;
+  }
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: safety-marquee 45s linear infinite;
+}
+
+.chipGroup {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+  flex-shrink: 0;
+}
+
+@keyframes safety-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 100px;
+  background: var(--green-100);
+  color: var(--green-main);
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.chipIcon {
+  flex-shrink: 0;
+  color: var(--green-main);
+}
+
+/* ---- Booking grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+
+  @include mixins.tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  border-radius: 24px;
+  background: var(--green-main);
+  color: var(--light-main);
+
+  @include mixins.mobile {
+    padding: 20px;
+  }
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.panelSubtitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.successText {
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--light-800);
+}
+
+/* ---- Form fields ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--light-main);
+  }
+
+  input {
+    height: 47px;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--light-200);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    color: var(--light-main);
+    outline: none;
+
+    &::placeholder {
+      color: var(--light-400);
+    }
+
+    &:focus {
+      box-shadow: inset 0 0 0 1px var(--light-600);
+    }
+  }
+}
+
+.error {
+  margin: -4px 0 0;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--orange-main);
+}
+
+.consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    accent-color: var(--orange-main);
+  }
+
+  span {
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--light-800);
+  }
+
+  a {
+    color: var(--light-main);
+    text-decoration: underline;
+  }
+}
+
+/* ---- Contact panel ---- */
+.actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @include mixins.mobile {
+    flex-direction: column;
+  }
+}
+
+.contactBtn {
+  flex: 1;
+  min-width: 160px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  background: var(--white-100);
+  color: var(--orange-main);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.contactRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.rowGlyph {
+  flex-shrink: 0;
+  color: var(--orange-main);
+}
+
+.muted {
+  color: var(--light-400);
+}
+
+/* ---- Reviews placeholder (Яндекс-виджет) ---- */
+.reviews {
+  overflow: hidden;
+  min-height: 600px;
+  border-radius: 16px;
+}

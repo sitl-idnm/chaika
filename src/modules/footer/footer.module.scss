@@ -1,0 +1,175 @@
+@use '@styles/mixins';
+
+.root {
+  padding-block: 32px;
+  background: var(--green-main);
+  color: var(--light-main);
+}
+
+.wrap {
+  @include mixins.container;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+
+  @include mixins.tablet {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+}
+
+/* ---- Left column ---- */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 361px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  a {
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 16px;
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.legal {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legalName {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--light-600);
+}
+
+.legalReq {
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--light-600);
+  white-space: pre-line;
+}
+
+/* ---- Center logo ---- */
+.logoLink {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+/* ---- Right column ---- */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 400px;
+  max-width: 100%;
+}
+
+.mapBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.routeText {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--light-main);
+}
+
+.infoGlyph {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.vkIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 14px;
+  margin-top: 3px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.muted {
+  color: var(--light-600);
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.contactBtn {
+  flex: 1;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--light-main);
+  color: var(--orange-main);
+  font-size: 18px;
+  font-weight: 500;
+
+  &:hover {
+    background: var(--white);
+  }
+}

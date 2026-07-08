@@ -1,0 +1,50 @@
+@use '@styles/mixins';
+
+.root {
+  @include mixins.reset-btn;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    box-shadow 0.16s ease,
+    color 0.16s ease;
+}
+
+.root_orange {
+  background: var(--orange-main);
+  color: var(--light-main);
+
+  &:hover {
+    background: var(--orange-800);
+  }
+
+  &:active {
+    background: var(--orange-active);
+  }
+}
+
+.root_light {
+  background: var(--light-main);
+  color: var(--orange-main);
+
+  &:hover {
+    background: var(--white);
+  }
+}
+
+.block {
+  width: 100%;
+}
