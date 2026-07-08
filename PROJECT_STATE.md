@@ -10,6 +10,9 @@
     `env.FIGMA_API_KEY`). MCP server not loaded in-session; curl is the path.
   - Figma parse helpers + reference renders live in `figma/` (not for prod).
 - **Boilerplate**: https://github.com/pandaprofit/nextjs-boilerplate
+- **Repo**: https://github.com/sitl-idnm/chaika.git (branch `main`; standalone
+  git repo nested inside the workspace — `.env.local` gitignored, `figma/`
+  helpers gitignored)
 - **Started**: 2026-07-06 · **v2 revisions**: 2026-07-08
 - **Overall status**: ✅ Done (v2 — client review fixes + modals/pages/cookie)
 - **Revisions checklist**: `REVISIONS.md` (all 10 groups closed)
@@ -163,7 +166,9 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
   `#breve`) rendered once via `<LogoDefs/>` in `layout.tsx`; `<Logo/>` `<use>`s them.
 - **⚠️ Price-table numbers** (вес/высота/протяжённость) are partly placeholder
   in the source — verify with the client before production (per handoff README).
-- **Reviews block** is an intentional grey placeholder (`#d9d9d9`).
+- **Reviews block** (Safety) & **map** (footer) now embed real Yandex.Maps
+  widgets for org `193894342382` — `src/components/widgets/` (`ReviewsWidget`,
+  `YandexMap`). Route links (header/footer) point to the org maps URL.
 - Boilerplate scaling `Provider` was simplified to a plain Jotai provider
   (its zoom-scaling conflicts with the media-query responsive design).
 - Fonts: mapped `--font-ui`/`--font-logo` to the next/font vars — no circular
