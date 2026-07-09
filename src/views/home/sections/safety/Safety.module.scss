@@ -111,14 +111,24 @@
 
 .panelTitle {
   margin: 0;
-  font-size: 32px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.21;
+
+  @include mixins.mobile {
+    font-size: 20px;
+  }
 }
 
 .panelSubtitle {
   margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.21;
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
 }
 
 .successText {
@@ -170,16 +180,38 @@
 
 .consent {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  gap: 8px;
+  align-items: center;
   cursor: pointer;
 
   input {
+    position: relative;
     flex-shrink: 0;
     width: 24px;
     height: 24px;
     margin: 0;
-    accent-color: var(--orange-main);
+    appearance: none;
+    border: 1px solid var(--light-main);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 4px;
+      width: 6px;
+      height: 11px;
+      border: solid var(--light-main);
+      border-width: 0 2px 2px 0;
+      opacity: 0;
+      transform: rotate(45deg);
+    }
+
+    &:checked::after {
+      opacity: 1;
+    }
   }
 
   span {
@@ -208,16 +240,26 @@
 .contactBtn {
   flex: 1;
   min-width: 160px;
+  min-height: 56px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 24px;
-  border-radius: 8px;
+  padding: 16px;
+  border-radius: 12px;
   background: var(--white-100);
   color: var(--orange-main);
   font-size: 18px;
   font-weight: 500;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
 }
 
 .contactRow {
@@ -230,7 +272,7 @@
 
 .rowGlyph {
   flex-shrink: 0;
-  color: var(--orange-main);
+  color: var(--light-main);
 }
 
 .muted {

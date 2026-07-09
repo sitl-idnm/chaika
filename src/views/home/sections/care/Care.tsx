@@ -81,7 +81,12 @@ const Care: FC = () => {
           </div>
         </div>
 
-        <Button as="a" href="#safety" variant="orange">
+        <Button
+          as="a"
+          href="#safety"
+          variant="orange"
+          className={styles.safetyBtn}
+        >
           Как обеспечивается безопасность?
         </Button>
       </div>

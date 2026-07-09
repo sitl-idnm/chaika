@@ -31,7 +31,7 @@ const CheckBadge: FC = () => (
       d="M6.8 12.4 10.4 16 17.2 8.6"
       fill="none"
       stroke="#fff"
-      strokeWidth="2"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -84,6 +84,12 @@ const Party: FC = () => {
             src="/images/kids.png"
             alt="Дети в парке Чайка"
             className={styles.photoImg}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/icons/rope-horizontal.svg"
+            alt=""
+            className={styles.ropeFeet}
           />
         </div>
       </div>

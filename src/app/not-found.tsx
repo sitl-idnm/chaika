@@ -6,13 +6,21 @@ import styles from './not-found.module.scss'
 const NotFound: FC = () => (
   <main className={styles.root}>
     <div className={styles.inner}>
-      <div className={styles.code}>#404</div>
-      <p className={styles.text}>Данная страница недоступна.</p>
-      <Button as="a" href="/" variant="orange">
+      <div className={styles.text}>
+        <div className={styles.code}>#404</div>
+        <p className={styles.subtitle}>Данная страница недоступна.</p>
+      </div>
+      <Button as="a" href="/" variant="orange" className={styles.button}>
         Вернуться на главную
       </Button>
     </div>
-    <div className={styles.stripes} aria-hidden="true" />
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/icons/error-stripes.svg"
+      alt=""
+      className={styles.stripes}
+      aria-hidden="true"
+    />
   </main>
 )
 

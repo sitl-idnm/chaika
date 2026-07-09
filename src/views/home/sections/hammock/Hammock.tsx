@@ -9,26 +9,31 @@ const Hammock: FC = () => {
       <div className={styles.wrap}>
         <div className={styles.inner}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/rope-deco.svg" alt="" className={styles.ropeDeco} />
+          <img src="/icons/rope-deco-8.svg" alt="" className={styles.ropeDeco} />
 
           <h2 className={styles.title}>
             Ребенок под присмотром инструктора, а вы отдыхаете в гамаке
           </h2>
-          <p>
-            {`Боитесь, что ребенок испугается высоты или зависнет на трассе?
+
+          <div className={styles.body}>
+            <div className={styles.group}>
+              <p>
+                {`Боитесь, что ребенок испугается высоты или зависнет на трассе?
 Наш инструктор пройдет маршрут вместе с ним: подстрахует, подскажет, поможет преодолеть страх.`}
-          </p>
-          <div className={styles.free}>
-            <Icon name="kid" size={32} className={styles.freeIcon} />
-            <span>
-              Услуга — <span className={styles.accent}>бесплатная</span> для
-              детской трассы
-            </span>
-          </div>
-          <p>
-            {`Также всегда дежурят инструкторы-спасатели, которые имеют сертификацию и спасательный комплект для эвакуации.
+              </p>
+              <div className={styles.free}>
+                <Icon name="kid" size={32} className={styles.freeIcon} />
+                <span>
+                  Услуга — <span className={styles.accent}>бесплатная</span> для
+                  детской трассы
+                </span>
+              </div>
+            </div>
+            <p>
+              {`Также всегда дежурят инструкторы-спасатели, которые имеют сертификацию и спасательный комплект для эвакуации.
 А вы можете спокойно сидеть в тени с видом на трассы, пить кофе и наблюдать.`}
-          </p>
+            </p>
+          </div>
         </div>
       </div>
     </section>

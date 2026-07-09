@@ -10,9 +10,9 @@ import { CONTACTS } from '@/shared/const/contacts'
 import styles from './header.module.scss'
 
 const navLinks = [
-  { href: '#tracks', label: 'Трассы и цены' },
-  { href: '#safety', label: 'Безопасность' },
-  { href: '#party', label: 'Мероприятия' }
+  { href: '/#tracks', label: 'Трассы и цены' },
+  { href: '/#safety', label: 'Безопасность' },
+  { href: '/#party', label: 'Мероприятия' }
 ]
 
 const Header: FC = () => {

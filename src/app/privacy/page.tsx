@@ -4,7 +4,10 @@ import { privacyTitle, privacyBlocks } from './privacyContent'
 import styles from './privacy.module.scss'
 
 export const metadata = {
-  title: 'Политика обработки персональных данных — Чайка'
+  title: 'Политика конфиденциальности',
+  description:
+    'Политика обработки персональных данных и пользовательское соглашение верёвочного парка «Чайка».',
+  alternates: { canonical: '/privacy' }
 }
 
 const PrivacyPage: FC = () => (

@@ -31,20 +31,16 @@
 }
 
 .part {
-  margin: 24px 0 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--green-main);
-
-  @include mixins.mobile {
-    font-size: 22px;
-  }
+  margin: 32px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--dark-600);
 }
 
 .heading {
   margin: 0;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--dark-main);
 }
 

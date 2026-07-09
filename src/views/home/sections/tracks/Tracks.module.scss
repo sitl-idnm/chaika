@@ -44,14 +44,19 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 1.15;
+
+    @include mixins.mobile {
+      font-size: 16px;
+    }
   }
 }
 
 .withIcon {
   display: flex;
   gap: 8px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  text-align: left;
 }
 
 .descIcon {
@@ -66,26 +71,51 @@
   height: 352px;
   width: auto;
   pointer-events: none;
+
+  @include mixins.mobile {
+    display: none;
+  }
 }
 
 /* ---- Price table ---- */
-.priceTable {
+.tableWrap {
   align-self: stretch;
+  width: 100%;
+
+  @include mixins.mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.priceTable {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 18px;
 
+  @include mixins.mobile {
+    min-width: 560px;
+  }
+
   th,
   td {
     padding: 16px;
     text-align: left;
+    border-bottom: 1px solid var(--green-100);
+    border-right: 1px solid var(--green-100);
+  }
+
+  th:first-child,
+  td:first-child {
+    border-left: 1px solid var(--green-100);
   }
 
   thead th {
     font-weight: 500;
     color: var(--light-main);
     background: var(--green-main);
+    border-top: 1px solid var(--green-100);
 
     &:first-child {
       border-top-left-radius: 6px;
@@ -139,6 +169,11 @@
   @include mixins.tablet {
     justify-content: center;
   }
+
+  @include mixins.mobile {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .map {
@@ -155,11 +190,8 @@
   }
 
   @include mixins.mobile {
-    min-width: 45%;
-
-    img {
-      height: 150px;
-    }
+    width: 100%;
+    min-width: 0;
   }
 }
 
@@ -200,6 +232,10 @@
     font-weight: 500;
     line-height: 1.25;
     color: var(--dark-800);
+
+    @include mixins.mobile {
+      font-size: 16px;
+    }
   }
 
   .cta {
@@ -211,11 +247,11 @@
   margin: 0;
   font-size: 40px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.21;
   color: var(--green-main);
 
-  @include mixins.tablet {
-    font-size: 32px;
+  @include mixins.mobile {
+    font-size: 24px;
   }
 }
 
@@ -230,4 +266,8 @@
   color: var(--green-main);
   font-size: 18px;
   font-weight: 500;
+
+  @include mixins.mobile {
+    font-size: 14px;
+  }
 }

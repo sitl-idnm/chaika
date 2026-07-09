@@ -9,13 +9,13 @@ import { CONTACTS } from '@/shared/const/contacts'
 import styles from './footer.module.scss'
 
 const navLinks = [
-  { href: '#tracks', label: 'Трассы и цены' },
-  { href: '#safety', label: 'Безопасность' },
-  { href: '#party', label: 'Мероприятия' }
+  { href: '/#tracks', label: 'Трассы и цены' },
+  { href: '/#safety', label: 'Безопасность' },
+  { href: '/#party', label: 'Мероприятия' }
 ]
 
 const legalLinks = [
-  { href: '#', label: 'Правила посещения верёвочного парка «Чайка»' },
+  { href: '/rules', label: 'Правила посещения верёвочного парка «Чайка»' },
   {
     href: '/privacy',
     label:
@@ -66,15 +66,6 @@ const Footer: FC = () => {
         <div className={styles.right}>
           <div className={styles.mapBlock}>
             <YandexMap />
-            <a
-              href={CONTACTS.maps}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.route}
-            >
-              <Glyph name="map-pin" />
-              <span className={styles.routeText}>Построить маршрут</span>
-            </a>
           </div>
 
           <div className={styles.info}>
@@ -132,7 +123,7 @@ const Footer: FC = () => {
               goal={GOALS.clickTelegram}
               goalParams={{ place: 'footer' }}
             >
-              <Glyph name="telegram" />
+              <Glyph name="paper-plane" />
               Написать в телеграм
             </TrackedLink>
           </div>

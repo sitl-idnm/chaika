@@ -21,6 +21,10 @@
     background-color 0.16s ease,
     box-shadow 0.16s ease,
     color 0.16s ease;
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
 }
 
 .root_orange {
@@ -39,6 +43,7 @@
 .root_light {
   background: var(--light-main);
   color: var(--orange-main);
+  box-shadow: inset 0 0 0 1px var(--orange-main);
 
   &:hover {
     background: var(--white);

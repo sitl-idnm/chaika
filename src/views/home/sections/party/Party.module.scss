@@ -38,6 +38,7 @@
 .tag {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 16px;
   border-radius: 100px;
@@ -45,11 +46,22 @@
   color: var(--light-main);
   font-size: 18px;
   font-weight: 500;
+
+  @include mixins.mobile {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 14px;
+  }
 }
 
 .tagIcon {
   width: 32px;
   height: 32px;
+
+  @include mixins.mobile {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* ---- Card ---- */
@@ -107,6 +119,12 @@
   @include mixins.tablet {
     min-height: 420px;
   }
+
+  @include mixins.mobile {
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .ring {
@@ -118,6 +136,13 @@
   border-radius: 50%;
   background: var(--green-100);
   box-shadow: inset 0 0 0 1px var(--light-main);
+
+  @include mixins.mobile {
+    left: 0;
+    right: 8px;
+    bottom: 12px;
+    height: 48%;
+  }
 }
 
 .photoImg {
@@ -126,4 +151,23 @@
   margin-left: 46px;
   max-height: 571px;
   width: auto;
+
+  @include mixins.mobile {
+    margin-left: 0;
+    max-width: 88%;
+    max-height: none;
+    height: auto;
+  }
+}
+
+/* Horizontal rope decoration under the kids' feet (Figma "element" 747×51) */
+.ropeFeet {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }

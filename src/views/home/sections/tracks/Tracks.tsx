@@ -69,24 +69,26 @@ const Tracks: FC = () => {
           </p>
         </div>
 
-        <table className={styles.priceTable}>
-          <thead>
+        <div className={styles.tableWrap}>
+          <table className={styles.priceTable}>
+            <thead>
             <tr>
               {priceHead.map((h) => (
                 <th key={h}>{h}</th>
               ))}
             </tr>
           </thead>
-          <tbody>
-            {priceRows.map((row) => (
-              <tr key={row[0]}>
-                {row.map((cell, i) => (
-                  <td key={i}>{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            <tbody>
+              {priceRows.map((row) => (
+                <tr key={row[0]}>
+                  {row.map((cell, i) => (
+                    <td key={i}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <TrackCta />
 

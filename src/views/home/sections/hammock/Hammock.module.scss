@@ -28,10 +28,29 @@
     max-width: 1248px;
     font-size: 20px;
     font-weight: 500;
-    line-height: 1.25;
+    line-height: 1.21;
     color: var(--dark-800);
     white-space: pre-line;
+
+    @include mixins.mobile {
+      font-size: 16px;
+    }
   }
+}
+
+/* Body groups the two paragraphs; the first paragraph + "бесплатная" row
+   sit tight together (gap 8) exactly as in the Figma layout. */
+.body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .ropeDeco {
@@ -41,6 +60,10 @@
   height: 352px;
   width: auto;
   pointer-events: none;
+
+  @include mixins.mobile {
+    display: none;
+  }
 }
 
 .title {
@@ -49,11 +72,11 @@
   max-width: 727px;
   font-size: 40px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.21;
   color: var(--green-main);
 
-  @include mixins.tablet {
-    font-size: 32px;
+  @include mixins.mobile {
+    font-size: 24px;
   }
 }
 
@@ -64,6 +87,10 @@
   font-size: 20px;
   font-weight: 500;
   color: var(--dark-800);
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
 }
 
 .freeIcon {

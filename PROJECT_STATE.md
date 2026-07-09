@@ -92,6 +92,8 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 | Icon (masked Tilda icons) | ui | ✅ Done | `src/ui/icon/` |
 | Logo (+ shared LogoDefs) | ui | ✅ Done | `src/ui/logo/` |
 | Glyph (stroke SVGs) | ui | ✅ Done | `src/ui/glyph/` |
+| Dropdown (custom select, event modal) | form | ✅ Done | `src/components/form/Dropdown.tsx` |
+| Rules page (`/rules`, Figma 211:1692) | page | ✅ Done | `src/app/rules/` |
 
 ---
 

@@ -15,7 +15,8 @@
   gap: 48px;
 
   @include mixins.tablet {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
     gap: 32px;
   }
 }
@@ -81,6 +82,10 @@
 .logoLink {
   flex-shrink: 0;
   line-height: 0;
+
+  @include mixins.tablet {
+    order: -1;
+  }
 }
 
 /* ---- Right column ---- */
@@ -151,13 +156,12 @@
 
 .buttons {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .contactBtn {
-  flex: 1;
-  min-width: 140px;
+  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -168,6 +172,15 @@
   color: var(--orange-main);
   font-size: 18px;
   font-weight: 500;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
 
   &:hover {
     background: var(--white);

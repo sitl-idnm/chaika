@@ -3,6 +3,7 @@
 import { FC, FormEvent, useState } from 'react'
 import { Button } from '@ui/button'
 import { PhoneInput } from '@/components/form/PhoneInput'
+import { Dropdown } from '@/components/form/Dropdown'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
@@ -109,17 +110,12 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <div className={styles.field}>
           <label htmlFor="e-type">Тип мероприятия</label>
-          <div className={styles.select}>
-            <select
-              id="e-type"
-              value={form.type}
-              onChange={(e) => set('type')(e.target.value)}
-            >
-              <option>День Рождения</option>
-              <option>Выпускной</option>
-              <option>Корпоратив</option>
-            </select>
-          </div>
+          <Dropdown
+            id="e-type"
+            value={form.type}
+            options={['День Рождения', 'Выпускной', 'Корпоратив']}
+            onChange={set('type')}
+          />
         </div>
 
         <div className={styles.grid2}>
