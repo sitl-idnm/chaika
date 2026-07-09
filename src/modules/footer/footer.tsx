@@ -27,21 +27,23 @@ const Footer: FC = () => {
   return (
     <footer className={styles.root}>
       <div className={styles.wrap}>
-        <div className={styles.left}>
-          <nav className={styles.nav}>
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href}>
-                {link.label}
-              </a>
-            ))}
-          </nav>
+        <div className={styles.leftCol}>
+          <div className={styles.left}>
+            <nav className={styles.nav}>
+              {navLinks.map((link) => (
+                <a key={link.href} href={link.href}>
+                  {link.label}
+                </a>
+              ))}
+            </nav>
 
-          <div className={styles.links}>
-            {legalLinks.map((link) => (
-              <a key={link.label} href={link.href}>
-                {link.label}
-              </a>
-            ))}
+            <div className={styles.links}>
+              {legalLinks.map((link) => (
+                <a key={link.label} href={link.href}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className={styles.legal}>
