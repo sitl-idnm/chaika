@@ -257,6 +257,10 @@
 
   .cta {
     align-self: flex-start;
+
+    @include mixins.mobile {
+      align-self: stretch;
+    }
   }
 }
 

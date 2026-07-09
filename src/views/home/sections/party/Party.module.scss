@@ -125,7 +125,9 @@
   }
 
   @include mixins.mobile {
+    flex: 0 0 auto;
     min-height: 0;
+    padding-bottom: 24px;
   }
 }
 
@@ -140,10 +142,10 @@
   box-shadow: inset 0 0 0 1px var(--light-main);
 
   @include mixins.mobile {
-    left: 0;
-    right: 8px;
-    bottom: 12px;
-    height: 48%;
+    left: 5%;
+    right: 5%;
+    bottom: 24px;
+    height: 42%;
   }
 }
 
