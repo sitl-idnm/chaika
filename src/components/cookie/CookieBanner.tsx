@@ -28,7 +28,7 @@ export const CookieBanner: FC = () => {
       <p className={styles.text}>
         Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим
         сайтом. Продолжая просмотр, вы соглашаетесь на их использование.
-        Подробнее — в{' '}
+        Подробнее — в&nbsp;
         <a href="/privacy">Политике обработки персональных данных</a>
       </p>
       <Button variant="orange" onClick={accept}>

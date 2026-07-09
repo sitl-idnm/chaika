@@ -3,14 +3,12 @@
 .root {
   position: fixed;
   z-index: 90;
-  right: 24px;
   bottom: 24px;
   left: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
-  max-width: 788px;
-  margin: 0 auto;
+  max-width: 620px;
   padding: 16px;
   border-radius: 12px;
   background: var(--light-main);
@@ -22,6 +20,7 @@
     right: 12px;
     bottom: 12px;
     left: 12px;
+    max-width: none;
   }
 }
 

@@ -57,12 +57,14 @@ $hero-overlay: radial-gradient(
 }
 
 .left {
+  flex-shrink: 0;
   max-width: 545px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 
   @include mixins.tablet {
+    flex-shrink: 1;
     max-width: none;
   }
 }

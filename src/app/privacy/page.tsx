@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { privacyTitle, privacyBlocks } from './privacyContent'
+import { highlightContacts } from './highlight'
 
 import styles from './privacy.module.scss'
 
@@ -23,7 +24,9 @@ const PrivacyPage: FC = () => (
         return (
           <section key={i} className={styles.block}>
             <h2 className={isPart ? styles.part : styles.heading}>{head}</h2>
-            {body && <p className={styles.body}>{body}</p>}
+            {body && (
+              <p className={styles.body}>{highlightContacts(body)}</p>
+            )}
           </section>
         )
       })}

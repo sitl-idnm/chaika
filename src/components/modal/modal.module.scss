@@ -139,6 +139,7 @@
     color: var(--light-main);
     outline: none;
     appearance: none;
+    color-scheme: dark;
 
     &::placeholder {
       color: var(--light-400);
@@ -153,7 +154,7 @@
 .consent {
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  align-items: center;
   cursor: pointer;
 
   input {

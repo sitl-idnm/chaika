@@ -222,7 +222,12 @@
   font-size: 18px;
   font-weight: 500;
   text-align: center;
+  white-space: nowrap;
   color: var(--dark-800);
+
+  @include mixins.mobile {
+    white-space: normal;
+  }
 }
 
 /* ---- Trampoline card ---- */

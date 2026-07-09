@@ -172,12 +172,14 @@
 
 .buttons {
   display: flex;
-  flex-direction: column;
   gap: 8px;
+
+  @include mixins.tablet {
+    flex-direction: column;
+  }
 }
 
 .contactBtn {
-  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -192,6 +194,10 @@
 
   svg {
     flex-shrink: 0;
+  }
+
+  @include mixins.tablet {
+    width: 100%;
   }
 
   @include mixins.mobile {
