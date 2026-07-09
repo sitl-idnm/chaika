@@ -33,6 +33,11 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+
+  @include mixins.mobile {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }
 
 .tag {
@@ -48,9 +53,8 @@
   font-weight: 500;
 
   @include mixins.mobile {
-    flex: 1;
-    padding: 12px 8px;
-    font-size: 14px;
+    width: 100%;
+    font-size: 16px;
   }
 }
 
@@ -122,8 +126,6 @@
 
   @include mixins.mobile {
     min-height: 0;
-    display: flex;
-    justify-content: center;
   }
 }
 
@@ -153,8 +155,9 @@
   width: auto;
 
   @include mixins.mobile {
-    margin-left: 0;
-    max-width: 88%;
+    display: block;
+    margin: 0 auto;
+    width: 89%;
     max-height: none;
     height: auto;
   }
