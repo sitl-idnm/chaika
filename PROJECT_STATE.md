@@ -165,7 +165,7 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 ## Assets (`public/`)
 | Asset | Local Path | Notes |
 |-------|-----------|-------|
-| hero background | `public/images/hero.png` | ⚠️ 14 MB — needs compression before prod |
+| hero background (responsive) | `public/images/hero-{desktop,tablet,mobile}.jpg` | per-breakpoint crops from Figma imageTransform (180/118/91 KB); old 14 MB hero.png removed |
 | party photo | `public/images/kids.png` | real photo (1371×1148) |
 | trail schemes ×4 | `public/icons/trail-*.svg` | `<img>`, height 200px |
 | Tilda icons ×6 | `public/icons/icon-*.svg` | CSS-mask (monochrome under currentColor) |

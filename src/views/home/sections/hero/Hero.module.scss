@@ -12,6 +12,13 @@
   }
 }
 
+$hero-overlay: radial-gradient(
+  110% 100% at 50% 0%,
+  rgba(255, 231, 108, 0.2) 0%,
+  rgba(54, 54, 54, 0.48) 48%,
+  rgba(1, 1, 1, 0.48) 100%
+);
+
 .card {
   position: relative;
   display: flex;
@@ -19,21 +26,19 @@
   min-height: 743px;
   border-radius: 24px;
   overflow: hidden;
-  background:
-    radial-gradient(
-      1376px 679px at 50% 0%,
-      rgba(255, 231, 108, 0.2) 0%,
-      rgba(54, 54, 54, 0.48) 48%,
-      rgba(1, 1, 1, 0.48) 100%
-    ),
-    url(/images/hero.png) 44% 2% / cover no-repeat;
+  background-image: $hero-overlay, url(/images/hero-desktop.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 
   @include mixins.tablet {
     min-height: 620px;
+    background-image: $hero-overlay, url(/images/hero-tablet.jpg);
   }
 
   @include mixins.mobile {
     min-height: 540px;
+    background-image: $hero-overlay, url(/images/hero-mobile.jpg);
   }
 }
 
@@ -72,6 +77,7 @@
 
   @include mixins.mobile {
     font-size: 32px;
+    text-align: center;
   }
 }
 
@@ -98,6 +104,10 @@
   @include mixins.tablet {
     align-items: flex-start;
   }
+
+  @include mixins.mobile {
+    align-items: center;
+  }
 }
 
 .tagRow {
@@ -108,6 +118,10 @@
 
   @include mixins.tablet {
     justify-content: flex-start;
+  }
+
+  @include mixins.mobile {
+    justify-content: center;
   }
 }
 

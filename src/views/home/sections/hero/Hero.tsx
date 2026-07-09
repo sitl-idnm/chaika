@@ -5,12 +5,13 @@ import { CtaButton } from '@/components/cta/CtaButton'
 
 import styles from './Hero.module.scss'
 
+// Ordered by increasing amount of text (shortest first)
 const tags: { icon: IconName; label: string }[] = [
-  { icon: 'coins', label: 'от 1000 ₽' },
-  { icon: 'forest', label: '348 м протяженность трасс' },
-  { icon: 'helmet', label: 'сопровождение инструктором' },
   { icon: 'kid', label: 'от 4 лет' },
-  { icon: 'stock', label: '7 м максимальная высота' }
+  { icon: 'coins', label: 'от 1000 ₽' },
+  { icon: 'stock', label: '7 м максимальная высота' },
+  { icon: 'forest', label: '348 м протяженность трасс' },
+  { icon: 'helmet', label: 'сопровождение инструктором' }
 ]
 
 const Hero: FC = () => {
