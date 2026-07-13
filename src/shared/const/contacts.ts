@@ -3,7 +3,7 @@ export const CONTACTS = {
   phoneDisplay: '+7 926 242-06-08',
   phoneHref: 'tel:+79262420608',
   vk: 'https://vk.com/chaika_park',
-  telegram: 'https://t.me/parkchaika',
+  telegram: 'https://t.me/chaika_park',
   site: 'https://chaikapark.ru',
   /** Yandex.Maps org card (route / reviews). */
   maps: 'https://yandex.ru/maps/org/chayka/193894342382/'

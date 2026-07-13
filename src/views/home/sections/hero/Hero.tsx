@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
 import { CtaButton } from '@/components/cta/CtaButton'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './Hero.module.scss'
 
@@ -21,7 +22,7 @@ const Hero: FC = () => {
         <div className={styles.inner}>
           <div className={styles.left}>
             <h1 className={styles.title}>
-              Верёвочный парк «Чайка» для всей семьи в Королёве
+              {nbp('Верёвочный парк «Чайка» для всей семьи в Королёве')}
             </h1>
             <div className={styles.buttons}>
               <CtaButton modal="booking">Забронировать онлайн</CtaButton>
@@ -36,7 +37,7 @@ const Hero: FC = () => {
               {tags.slice(0, 2).map((tag) => (
                 <span key={tag.label} className={styles.tag}>
                   <Icon name={tag.icon} />
-                  {tag.label}
+                  {nbp(tag.label)}
                 </span>
               ))}
             </div>
@@ -44,7 +45,7 @@ const Hero: FC = () => {
               {tags.slice(2).map((tag) => (
                 <span key={tag.label} className={styles.tag}>
                   <Icon name={tag.icon} />
-                  {tag.label}
+                  {nbp(tag.label)}
                 </span>
               ))}
             </div>

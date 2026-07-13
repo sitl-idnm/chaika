@@ -5,6 +5,7 @@ import { TrackedLink } from '@/components/analytics/TrackedLink'
 import { YandexMap } from '@/components/widgets/YandexMap'
 import { GOALS } from '@/shared/lib/metrika'
 import { CONTACTS } from '@/shared/const/contacts'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './footer.module.scss'
 
@@ -32,7 +33,7 @@ const Footer: FC = () => {
             <nav className={styles.nav}>
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href}>
-                  {link.label}
+                  {nbp(link.label)}
                 </a>
               ))}
             </nav>
@@ -40,7 +41,7 @@ const Footer: FC = () => {
             <div className={styles.links}>
               {legalLinks.map((link) => (
                 <a key={link.label} href={link.href}>
-                  {link.label}
+                  {nbp(link.label)}
                 </a>
               ))}
             </div>
@@ -82,19 +83,20 @@ const Footer: FC = () => {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/icon-vk.svg" alt="" className={styles.vkIcon} />
               <span>
-                Актуальные новости в{' '}
-                <span className={styles.underline}>нашей группе в ВК</span>
+                {nbp('Актуальные новости в ')}
+                <span className={styles.underline}>{nbp('нашей группе в ВК')}</span>
               </span>
             </TrackedLink>
 
             <div className={styles.infoRow}>
               <Glyph name="clock" className={styles.infoGlyph} />
               <span>
-                Июнь–август: с 11:00 до 19:00
+                {nbp('Июнь–август: с 11:00 до 19:00')}
                 <br />
                 <span className={styles.muted}>
-                  В мае и сентябре график может меняться. Позвоните нам для
-                  получения точной информации
+                  {nbp(
+                    'В мае и сентябре график может меняться. Позвоните нам для получения точной информации'
+                  )}
                 </span>
               </span>
             </div>
@@ -125,7 +127,7 @@ const Footer: FC = () => {
               goal={GOALS.clickTelegram}
               goalParams={{ place: 'footer' }}
             >
-              <Glyph name="paper-plane" />
+              <Glyph name="telegram" />
               Написать в телеграм
             </TrackedLink>
           </div>

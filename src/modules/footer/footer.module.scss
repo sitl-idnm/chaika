@@ -4,6 +4,10 @@
   padding-block: 32px;
   background: var(--green-main);
   color: var(--light-main);
+
+  @include mixins.mobile {
+    padding-block: 24px;
+  }
 }
 
 .wrap {
@@ -18,6 +22,10 @@
     flex-direction: column;
     align-items: stretch;
     gap: 32px;
+  }
+
+  @include mixins.mobile {
+    gap: 24px;
   }
 }
 

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Icon } from '@ui/icon'
 import { CtaButton } from '@/components/cta/CtaButton'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './Party.module.scss'
 
@@ -44,7 +45,7 @@ const Party: FC = () => {
       <div className={styles.wrap}>
         <div className={styles.left}>
           <h2 className={styles.title}>
-            Устройте незабываемый праздник под ключ
+            {nbp('Устройте незабываемый праздник под ключ')}
           </h2>
 
           <div className={styles.tags}>
@@ -52,7 +53,7 @@ const Party: FC = () => {
               <span key={pill.label} className={styles.tag}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={pill.icon} alt="" className={styles.tagIcon} />
-                {pill.label}
+                {nbp(pill.label)}
               </span>
             ))}
           </div>
@@ -62,13 +63,13 @@ const Party: FC = () => {
               {listItems.map((item) => (
                 <li key={item}>
                   <CheckBadge />
-                  <span>{item}</span>
+                  <span>{nbp(item)}</span>
                 </li>
               ))}
             </ul>
             <span className={styles.price}>
               <Icon name="coins" />
-              от 2400 ₽ за человека. родители — бесплатно
+              {nbp('от 2400 ₽ за человека. родители — бесплатно')}
             </span>
           </div>
 

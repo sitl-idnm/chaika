@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './Care.module.scss'
 
@@ -50,9 +51,9 @@ const CareCard: FC<{ item: CareItem }> = ({ item }) => (
   >
     <div className={styles.head}>
       <Icon name={item.icon} size={32} className={styles.icon} />
-      <span className={styles.cardTitle}>{item.title}</span>
+      <span className={styles.cardTitle}>{nbp(item.title)}</span>
     </div>
-    <div className={styles.body}>{item.body}</div>
+    <div className={styles.body}>{nbp(item.body)}</div>
   </div>
 )
 
@@ -64,8 +65,9 @@ const Care: FC = () => {
         <img src="/images/care.png" alt="" className={styles.photo} />
 
         <h2 className={styles.title}>
-          Парк, где заботятся о детях
-          <br />и спокойствии родителей
+          {nbp('Парк, где заботятся о детях')}
+          <br />
+          {nbp('и спокойствии родителей')}
         </h2>
 
         <div className={styles.grid}>

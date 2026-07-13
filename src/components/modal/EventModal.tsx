@@ -3,6 +3,7 @@
 import { FC, FormEvent, useState } from 'react'
 import { Button } from '@ui/button'
 import { PhoneInput } from '@/components/form/PhoneInput'
+import { NumberField } from '@/components/form/NumberField'
 import { Dropdown } from '@/components/form/Dropdown'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
@@ -121,24 +122,20 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className={styles.grid2}>
           <div className={styles.field}>
             <label htmlFor="e-kids">Количество детей:</label>
-            <input
+            <NumberField
               id="e-kids"
-              type="number"
-              min="0"
               placeholder="12"
               value={form.kids}
-              onChange={(e) => set('kids')(e.target.value)}
+              onChange={set('kids')}
             />
           </div>
           <div className={styles.field}>
             <label htmlFor="e-adults">Количество взрослых:</label>
-            <input
+            <NumberField
               id="e-adults"
-              type="number"
-              min="0"
               placeholder="12"
               value={form.adults}
-              onChange={(e) => set('adults')(e.target.value)}
+              onChange={set('adults')}
             />
           </div>
         </div>

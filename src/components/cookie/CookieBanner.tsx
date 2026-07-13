@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Button } from '@ui/button'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './cookie.module.scss'
 
@@ -26,9 +27,9 @@ export const CookieBanner: FC = () => {
   return (
     <div className={styles.root} role="dialog" aria-label="Cookie">
       <p className={styles.text}>
-        Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим
-        сайтом. Продолжая просмотр, вы соглашаетесь на их использование.
-        Подробнее — в&nbsp;
+        {nbp(
+          'Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим сайтом. Продолжая просмотр, вы соглашаетесь на их использование. Подробнее — в '
+        )}
         <a href="/privacy">Политике обработки персональных данных</a>
       </p>
       <Button variant="orange" onClick={accept}>

@@ -10,6 +10,7 @@ import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { CONTACTS } from '@/shared/const/contacts'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './Safety.module.scss'
 
@@ -26,7 +27,7 @@ const ChipGroup: FC<{ ariaHidden?: boolean }> = ({ ariaHidden }) => (
     {chips.map((chip) => (
       <span key={chip} className={styles.chip}>
         <Icon name="check-circle" size={24} className={styles.chipIcon} />
-        {chip}
+        {nbp(chip)}
       </span>
     ))}
   </div>
@@ -60,7 +61,7 @@ const Safety: FC = () => {
   return (
     <section className={styles.root} id="safety">
       <div className={styles.wrap}>
-        <h2 className={styles.title}>Как мы обеспечиваем безопасность</h2>
+        <h2 className={styles.title}>{nbp('Как мы обеспечиваем безопасность')}</h2>
 
         <div className={styles.marquee}>
           <div className={styles.track}>
@@ -140,7 +141,7 @@ const Safety: FC = () => {
 
             <div className={styles.panel}>
               <h3 className={styles.panelSubtitle}>
-                Или свяжитесь с нами любым удобным для вас способом:
+                {nbp('Или свяжитесь с нами любым удобным для вас способом:')}
               </h3>
 
               <div className={styles.actions}>
@@ -161,7 +162,7 @@ const Safety: FC = () => {
                     ymGoal(GOALS.clickTelegram, { place: 'safety' })
                   }
                 >
-                  <Glyph name="paper-plane" />
+                  <Glyph name="telegram" />
                   Написать в телеграм
                 </a>
               </div>
@@ -169,7 +170,7 @@ const Safety: FC = () => {
               <div className={styles.contactRow}>
                 <Glyph name="map-pin" className={styles.rowGlyph} />
                 <span>
-                  Королёв, ул. К.Д. Трофимова, 1/2 (справа от стадиона «Чайка»)
+                  {nbp('Королёв, ул. К.Д. Трофимова, 1/2 (справа от стадиона «Чайка»)')}
                 </span>
               </div>
 

@@ -36,16 +36,16 @@
   }
 }
 
-// Vertical rhythm for a page section: 88 → 56 (≤900) → 40 (≤560)
+// Vertical rhythm for a page section: 88 → 32 (≤900) → 24 (≤560), per Figma
 @mixin section-block {
   padding-block: 88px;
 
   @include tablet {
-    padding-block: 56px;
+    padding-block: 32px;
   }
 
   @include mobile {
-    padding-block: 40px;
+    padding-block: 24px;
   }
 }
 

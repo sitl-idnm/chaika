@@ -9,11 +9,11 @@
   box-shadow: 0 4px 24px rgba(21, 21, 21, 0.12);
 
   @include mixins.tablet {
-    padding-block: 20px;
+    padding-block: 24px;
   }
 
   @include mixins.mobile {
-    padding-block: 16px;
+    padding-block: 12px;
   }
 }
 
@@ -116,8 +116,8 @@
 }
 
 .vkIcon {
-  width: 24px;
-  height: auto;
+  width: 31.75px;
+  height: 18px;
 }
 
 .burger {

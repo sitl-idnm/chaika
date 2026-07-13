@@ -1,14 +1,15 @@
 @use '@styles/mixins';
 
 .root {
-  padding: 8px 64px 0;
+  padding: 32px 64px 0;
 
+  // Планшет/мобилка: картинка во всю ширину экрана (как в макете)
   @include mixins.tablet {
-    padding: 8px 24px 0;
+    padding: 0;
   }
 
   @include mixins.mobile {
-    padding: 8px 12px 0;
+    padding: 0;
   }
 }
 
@@ -33,17 +34,20 @@ $hero-overlay: radial-gradient(
 
   @include mixins.tablet {
     min-height: 620px;
+    border-radius: 0;
     background-image: $hero-overlay, url(/images/hero-tablet.jpg);
   }
 
   @include mixins.mobile {
     min-height: 540px;
+    border-radius: 0;
     background-image: $hero-overlay, url(/images/hero-mobile.jpg);
   }
 }
 
 .inner {
   width: 100%;
+  min-width: 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -53,12 +57,20 @@ $hero-overlay: radial-gradient(
   @include mixins.tablet {
     flex-direction: column;
     align-items: stretch;
+    padding: 88px 24px 32px;
+    gap: 32px;
+  }
+
+  @include mixins.mobile {
+    padding: 88px 12px 24px;
+    gap: 24px;
   }
 }
 
 .left {
   flex-shrink: 0;
-  max-width: 545px;
+  min-width: 0;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -67,15 +79,21 @@ $hero-overlay: radial-gradient(
     flex-shrink: 1;
     max-width: none;
   }
+
+  @include mixins.mobile {
+    gap: 16px;
+  }
 }
 
 .title {
   margin: 0;
+  max-width: 100%;
   font-family: var(--font-logo);
   font-weight: 400;
   font-size: 48px;
   line-height: 1.1;
   color: var(--light-main);
+  overflow-wrap: break-word;
 
   @include mixins.mobile {
     font-size: 32px;
@@ -89,6 +107,7 @@ $hero-overlay: radial-gradient(
 
   @include mixins.mobile {
     flex-direction: column;
+    gap: 6px;
   }
 
   > * {
@@ -108,7 +127,9 @@ $hero-overlay: radial-gradient(
   }
 
   @include mixins.mobile {
-    align-items: center;
+    align-items: stretch;
+    max-width: none;
+    gap: 6px;
   }
 }
 
@@ -122,8 +143,11 @@ $hero-overlay: radial-gradient(
     justify-content: flex-start;
   }
 
+  // Мобилка: плашки в одну колонку
   @include mixins.mobile {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
 }
 

@@ -3,6 +3,10 @@
 .root {
   padding-block: 32px;
   background: var(--green-main);
+
+  @include mixins.mobile {
+    padding-block: 24px;
+  }
 }
 
 .wrap {
@@ -20,7 +24,8 @@
   background: var(--light-main);
 
   @include mixins.mobile {
-    padding: 20px;
+    gap: 16px;
+    padding: 12px;
   }
 
   p {

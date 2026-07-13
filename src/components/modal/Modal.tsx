@@ -2,6 +2,7 @@
 
 import { FC, ReactNode, useRef } from 'react'
 import { Portal } from '@/service/portal'
+import { nbp } from '@/shared/lib/typography'
 import {
   useFocusLock,
   useOnClickOutside,
@@ -59,8 +60,8 @@ export const Modal: FC<ModalProps> = ({
           </button>
 
           <div className={styles.head}>
-            <h2 className={styles.title}>{title}</h2>
-            {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+            <h2 className={styles.title}>{nbp(title)}</h2>
+            {subtitle && <p className={styles.subtitle}>{nbp(subtitle)}</p>}
           </div>
 
           {children}

@@ -6,6 +6,7 @@ import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { CONTACTS } from '@/shared/const/contacts'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './header.module.scss'
 
@@ -26,7 +27,7 @@ const Header: FC = () => {
         <nav className={styles.nav}>
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} className={styles.navLink}>
-              {link.label}
+              {nbp(link.label)}
             </a>
           ))}
         </nav>
@@ -104,7 +105,7 @@ const Header: FC = () => {
               className={styles.mobileLink}
               onClick={closeMenu}
             >
-              {link.label}
+              {nbp(link.label)}
             </a>
           ))}
           <a
