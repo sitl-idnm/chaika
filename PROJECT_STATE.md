@@ -150,7 +150,9 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 
 ### Contacts (single source)
 - `src/shared/const/contacts.ts` — phone `+7 926 242-06-08`, VK
-  `vk.com/chaika_park`, Telegram `t.me/parkchaika`, site `chaikapark.ru`, Yandex
+  `vk.com/chaika_park`, Telegram `telegram.me/chaika_park` (switched from `t.me`
+  after the domain was placed on registry serverHold on 2026-07-13), site
+  `chaikapark.ru`, Yandex
   maps org. Wired into header/footer/safety/thanks (external links `_blank`).
 - **Telegram creds** (`.env.local`) filled + verified live (bot
   `@ropeparkchaika_bot`, chat `-1004317842742`).
