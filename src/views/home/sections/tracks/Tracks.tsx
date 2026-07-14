@@ -36,7 +36,7 @@ const RopeDeco: FC = () => (
 const TrackCta: FC = () => (
   <div className={styles.cta}>
     <CtaButton modal="booking">Забронировать онлайн</CtaButton>
-    <CtaButton modal="event" variant="light">
+    <CtaButton modal="event" variant="light" bordered>
       Провести день рождения
     </CtaButton>
   </div>

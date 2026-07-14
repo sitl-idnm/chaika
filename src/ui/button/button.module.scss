@@ -20,7 +20,8 @@
   transition:
     background-color 0.16s ease,
     box-shadow 0.16s ease,
-    color 0.16s ease;
+    color 0.16s ease,
+    opacity 0.16s ease;
 
   @include mixins.mobile {
     font-size: 16px;
@@ -41,13 +42,17 @@
 }
 
 .root_light {
-  background: var(--light-main);
+  background: var(--white);
   color: var(--orange-main);
-  box-shadow: inset 0 0 0 1px var(--orange-main);
 
   &:hover {
-    background: var(--white);
+    opacity: 0.7;
   }
+}
+
+// Оранжевый бордер — только для белых кнопок в блоках «4 трассы» и «Батут».
+.root_bordered {
+  box-shadow: inset 0 0 0 1px var(--orange-main);
 }
 
 .block {

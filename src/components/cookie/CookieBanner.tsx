@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@ui/button'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { nbp } from '@/shared/lib/typography'
@@ -30,7 +31,7 @@ export const CookieBanner: FC = () => {
         {nbp(
           'Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим сайтом. Продолжая просмотр, вы соглашаетесь на их использование. Подробнее — в '
         )}
-        <a href="/privacy">Политике обработки персональных данных</a>
+        <Link href="/privacy">Политике обработки персональных данных</Link>
       </p>
       <Button variant="orange" onClick={accept}>
         Принять

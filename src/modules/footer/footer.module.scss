@@ -36,6 +36,16 @@
   gap: 32px;
   max-width: 361px;
 
+  // Desktop: stretch to match the taller right column and pin the
+  // requisites block to the very bottom of the column.
+  @include mixins.desktop-only {
+    align-self: stretch;
+
+    .legal {
+      margin-top: auto;
+    }
+  }
+
   // On tablet/mobile flatten so requisites can reorder to the very end
   @include mixins.tablet {
     display: contents;
@@ -194,11 +204,12 @@
   gap: 8px;
   padding: 16px;
   border-radius: 12px;
-  background: var(--light-main);
+  background: var(--white);
   color: var(--orange-main);
   font-size: 18px;
   font-weight: 500;
   white-space: nowrap;
+  transition: opacity 0.16s ease;
 
   svg {
     flex-shrink: 0;
@@ -213,6 +224,6 @@
   }
 
   &:hover {
-    background: var(--white);
+    opacity: 0.7;
   }
 }

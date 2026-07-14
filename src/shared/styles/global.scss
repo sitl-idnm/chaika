@@ -110,7 +110,10 @@ body {
   font-weight: 400;
   line-height: 1.2;
   color: var(--text-primary);
-  background: var(--bg-page);
+  // Body matches the header/footer green so overscroll (rubber-band) above the
+  // header and below the footer shows green — no light strip. The page content
+  // background lives on `main` (see #root main below).
+  background: var(--green-main);
   // `clip` (not `hidden`) so the sticky header isn't trapped in a scroll
   // container while still preventing horizontal scroll from full-bleed bands.
   overflow-x: clip;
@@ -160,5 +163,8 @@ button {
 
   main {
     flex-grow: 1;
+    // Page content background (#f0f0f0). Body is green underneath, so overscroll
+    // areas stay green while the content itself is light.
+    background: var(--light-main);
   }
 }

@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import Link from 'next/link'
 import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
 import { TrackedLink } from '@/components/analytics/TrackedLink'
@@ -32,17 +33,17 @@ const Footer: FC = () => {
           <div className={styles.left}>
             <nav className={styles.nav}>
               {navLinks.map((link) => (
-                <a key={link.href} href={link.href}>
+                <Link key={link.href} href={link.href}>
                   {nbp(link.label)}
-                </a>
+                </Link>
               ))}
             </nav>
 
             <div className={styles.links}>
               {legalLinks.map((link) => (
-                <a key={link.label} href={link.href}>
+                <Link key={link.label} href={link.href}>
                   {nbp(link.label)}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -62,9 +63,9 @@ const Footer: FC = () => {
           </div>
         </div>
 
-        <a href="/" className={styles.logoLink} aria-label="Чайка — верёвочный парк">
+        <Link href="/" className={styles.logoLink} aria-label="Чайка — верёвочный парк">
           <Logo width={85} />
-        </a>
+        </Link>
 
         <div className={styles.right}>
           <div className={styles.mapBlock}>

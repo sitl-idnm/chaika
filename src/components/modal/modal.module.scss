@@ -227,13 +227,14 @@
   gap: 8px;
   padding: 16px;
   border-radius: 12px;
-  background: var(--light-main);
+  background: var(--white);
   color: var(--orange-main);
   font-size: 18px;
   font-weight: 500;
+  transition: opacity 0.16s ease;
 
   &:hover {
-    background: var(--white);
+    opacity: 0.7;
   }
 
   img {

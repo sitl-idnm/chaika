@@ -23,7 +23,7 @@ const RulesPage: FC = () => (
         return (
           <section key={i} className={styles.block}>
             <h2 className={styles.heading}>{head}</h2>
-            {body && renderPolicyBody(body)}
+            {body && renderPolicyBody(body, { bulletLines: true })}
           </section>
         )
       })}

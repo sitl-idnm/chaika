@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, FormEvent, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@ui/button'
 import { PhoneInput } from '@/components/form/PhoneInput'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
@@ -76,7 +77,7 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <span>
             Я принимаю условия{' '}
-            <a href="/privacy">Политики обработки персональных данных</a> и даю
+            <Link href="/privacy">Политики обработки персональных данных</Link> и даю
             согласие на обработку моих персональных данных.
           </span>
         </label>

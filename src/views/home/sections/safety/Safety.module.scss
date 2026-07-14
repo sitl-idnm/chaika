@@ -257,14 +257,19 @@
   gap: 8px;
   padding: 16px;
   border-radius: 12px;
-  background: var(--white-100);
+  background: var(--white);
   color: var(--orange-main);
   font-size: 18px;
   font-weight: 500;
   white-space: nowrap;
+  transition: opacity 0.16s ease;
 
   svg {
     flex-shrink: 0;
+  }
+
+  &:hover {
+    opacity: 0.7;
   }
 
   @include mixins.mobile {

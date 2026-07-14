@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, useState } from 'react'
+import Link from 'next/link'
 import classNames from 'classnames'
 import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
@@ -26,19 +27,19 @@ const Header: FC = () => {
       <div className={styles.inner}>
         <nav className={styles.nav}>
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className={styles.navLink}>
+            <Link key={link.href} href={link.href} className={styles.navLink}>
               {nbp(link.label)}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a
+        <Link
           href="/"
           className={styles.logoLink}
           aria-label="Чайка — верёвочный парк"
         >
           <Logo width={85} />
-        </a>
+        </Link>
 
         <div className={styles.right}>
           <a
@@ -99,14 +100,14 @@ const Header: FC = () => {
       {menuOpen && (
         <nav className={styles.mobileMenu}>
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className={styles.mobileLink}
               onClick={closeMenu}
             >
               {nbp(link.label)}
-            </a>
+            </Link>
           ))}
           <a
             href={CONTACTS.maps}

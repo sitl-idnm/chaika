@@ -8,6 +8,7 @@ const defaultElement = 'button'
 
 export default function Button<E extends ElementType = typeof defaultElement>({
   variant = 'orange',
+  bordered = false,
   block = false,
   children,
   as,
@@ -19,7 +20,7 @@ export default function Button<E extends ElementType = typeof defaultElement>({
   const elClassName = classNames(
     styles.root,
     styles[`root_${variant}`],
-    { [styles.block]: block },
+    { [styles.root_bordered]: bordered, [styles.block]: block },
     className
   )
 

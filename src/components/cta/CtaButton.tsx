@@ -9,6 +9,7 @@ import { GOALS, ymGoal } from '@/shared/lib/metrika'
 type CtaButtonProps = {
   modal: Exclude<ModalId, null>
   variant?: 'orange' | 'light'
+  bordered?: boolean
   block?: boolean
   children: ReactNode
 }
@@ -17,6 +18,7 @@ type CtaButtonProps = {
 export const CtaButton: FC<CtaButtonProps> = ({
   modal,
   variant = 'orange',
+  bordered,
   block,
   children
 }) => {
@@ -28,7 +30,7 @@ export const CtaButton: FC<CtaButtonProps> = ({
   }
 
   return (
-    <Button variant={variant} block={block} onClick={open}>
+    <Button variant={variant} bordered={bordered} block={block} onClick={open}>
       {children}
     </Button>
   )

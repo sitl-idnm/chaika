@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, FormEvent, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@ui/button'
 import { Glyph } from '@ui/glyph'
 import { Icon } from '@ui/icon'
@@ -114,9 +115,9 @@ const Safety: FC = () => {
                   />
                   <span>
                     Я принимаю условия{' '}
-                    <a href="/privacy">
+                    <Link href="/privacy">
                       Политики обработки персональных данных
-                    </a>{' '}
+                    </Link>{' '}
                     и даю согласие на&nbsp;обработку моих персональных данных.
                   </span>
                 </label>
