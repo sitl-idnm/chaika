@@ -1,18 +1,23 @@
 'use client'
 
-import { FC, FormEvent, useState } from 'react'
+import { FC, FormEvent, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@ui/button'
-import { PhoneInput } from '@/components/form/PhoneInput'
-import { NumberField } from '@/components/form/NumberField'
-import { Dropdown } from '@/components/form/Dropdown'
-import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
-import { Modal } from './Modal'
-import { ThanksBody } from './ThanksBody'
+import { isCompleteRuPhone } from '@/shared/lib/phone'
+import { Button } from '@ui/button'
 
+import { Dropdown } from '@/components/form/Dropdown'
+import { NumberField } from '@/components/form/NumberField'
+import { PhoneInput } from '@/components/form/PhoneInput'
+import {
+  SmartCaptcha,
+  type SmartCaptchaHandle
+} from '@/components/form/SmartCaptcha'
+
+import { Modal } from './Modal'
 import styles from './modal.module.scss'
+import { ThanksBody } from './ThanksBody'
 
 export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const [form, setForm] = useState({
@@ -27,6 +32,7 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const [agree, setAgree] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submitted, setSubmitted] = useState(false)
+  const captchaRef = useRef<SmartCaptchaHandle>(null)
 
   const set = (key: keyof typeof form) => (value: string) =>
     setForm((f) => ({ ...f, [key]: value }))
@@ -39,6 +45,16 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
     if (!canSubmit || status === 'loading') return
 
     setStatus('loading')
+
+    let captchaToken = ''
+    try {
+      captchaToken = (await captchaRef.current?.execute()) ?? ''
+    } catch {
+      ymGoal(GOALS.submitError, { form: 'event' })
+      setStatus('error')
+      return
+    }
+
     const res = await submitLead({
       form: 'event',
       name: form.name,
@@ -47,7 +63,8 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
       eventType: form.type,
       kids: form.kids,
       adults: form.adults,
-      date: form.date
+      date: form.date,
+      captchaToken
     })
 
     if (res.ok) {
@@ -161,8 +178,8 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <span>
             Я принимаю условия{' '}
-            <Link href="/privacy">Политики обработки персональных данных</Link> и даю
-            согласие на обработку моих персональных данных.
+            <Link href="/privacy">Политики обработки персональных данных</Link>{' '}
+            и даю согласие на обработку моих персональных данных.
           </span>
         </label>
 
@@ -171,6 +188,8 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
             Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.
           </p>
         )}
+
+        <SmartCaptcha ref={captchaRef} />
 
         <Button
           variant="orange"

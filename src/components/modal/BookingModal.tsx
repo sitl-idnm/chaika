@@ -1,16 +1,21 @@
 'use client'
 
-import { FC, FormEvent, useState } from 'react'
+import { FC, FormEvent, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@ui/button'
-import { PhoneInput } from '@/components/form/PhoneInput'
-import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
-import { Modal } from './Modal'
-import { ThanksBody } from './ThanksBody'
+import { isCompleteRuPhone } from '@/shared/lib/phone'
+import { Button } from '@ui/button'
 
+import { PhoneInput } from '@/components/form/PhoneInput'
+import {
+  SmartCaptcha,
+  type SmartCaptchaHandle
+} from '@/components/form/SmartCaptcha'
+
+import { Modal } from './Modal'
 import styles from './modal.module.scss'
+import { ThanksBody } from './ThanksBody'
 
 export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const [name, setName] = useState('')
@@ -18,6 +23,7 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const [agree, setAgree] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submitted, setSubmitted] = useState(false)
+  const captchaRef = useRef<SmartCaptchaHandle>(null)
 
   const canSubmit = name.trim() !== '' && isCompleteRuPhone(phone) && agree
 
@@ -26,7 +32,17 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
     if (!canSubmit || status === 'loading') return
 
     setStatus('loading')
-    const res = await submitLead({ form: 'booking', name, phone })
+
+    let captchaToken = ''
+    try {
+      captchaToken = (await captchaRef.current?.execute()) ?? ''
+    } catch {
+      ymGoal(GOALS.submitError, { form: 'booking' })
+      setStatus('error')
+      return
+    }
+
+    const res = await submitLead({ form: 'booking', name, phone, captchaToken })
 
     if (res.ok) {
       ymGoal(GOALS.submitBooking)
@@ -77,8 +93,8 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <span>
             Я принимаю условия{' '}
-            <Link href="/privacy">Политики обработки персональных данных</Link> и даю
-            согласие на обработку моих персональных данных.
+            <Link href="/privacy">Политики обработки персональных данных</Link>{' '}
+            и даю согласие на обработку моих персональных данных.
           </span>
         </label>
 
@@ -87,6 +103,8 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
             Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.
           </p>
         )}
+
+        <SmartCaptcha ref={captchaRef} />
 
         <Button
           variant="orange"

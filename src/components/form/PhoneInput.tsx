@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  ChangeEvent,
-  FC,
-  KeyboardEvent,
-  useEffect,
-  useRef
-} from 'react'
+import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from 'react'
 import { formatRuPhone } from '@/shared/lib/phone'
 
 type PhoneInputProps = {

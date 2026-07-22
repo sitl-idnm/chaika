@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import { privacyBlocks } from './privacyContent'
-import { renderPolicyBody } from './policyBody'
 
+import { renderPolicyBody } from './policyBody'
 import styles from './privacy.module.scss'
+import { privacyBlocks } from './privacyContent'
 
 export const metadata = {
   title: 'Политика конфиденциальности',

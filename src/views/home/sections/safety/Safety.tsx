@@ -1,17 +1,22 @@
 'use client'
 
-import { FC, FormEvent, useState } from 'react'
+import { FC, FormEvent, useRef, useState } from 'react'
 import Link from 'next/link'
+import { CONTACTS } from '@/shared/const/contacts'
+import { submitLead } from '@/shared/lib/leads'
+import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { isCompleteRuPhone } from '@/shared/lib/phone'
+import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
 import { Glyph } from '@ui/glyph'
 import { Icon } from '@ui/icon'
-import { ReviewsWidget } from '@/components/widgets/ReviewsWidget'
+
 import { PhoneInput } from '@/components/form/PhoneInput'
-import { isCompleteRuPhone } from '@/shared/lib/phone'
-import { submitLead } from '@/shared/lib/leads'
-import { GOALS, ymGoal } from '@/shared/lib/metrika'
-import { CONTACTS } from '@/shared/const/contacts'
-import { nbp } from '@/shared/lib/typography'
+import {
+  SmartCaptcha,
+  type SmartCaptchaHandle
+} from '@/components/form/SmartCaptcha'
+import { ReviewsWidget } from '@/components/widgets/ReviewsWidget'
 
 import styles from './Safety.module.scss'
 
@@ -40,6 +45,7 @@ const Safety: FC = () => {
   const [agree, setAgree] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submitted, setSubmitted] = useState(false)
+  const captchaRef = useRef<SmartCaptchaHandle>(null)
 
   const canSubmit = name.trim() !== '' && isCompleteRuPhone(phone) && agree
 
@@ -48,7 +54,17 @@ const Safety: FC = () => {
     if (!canSubmit || status === 'loading') return
 
     setStatus('loading')
-    const res = await submitLead({ form: 'safety', name, phone })
+
+    let captchaToken = ''
+    try {
+      captchaToken = (await captchaRef.current?.execute()) ?? ''
+    } catch {
+      ymGoal(GOALS.submitError, { form: 'safety' })
+      setStatus('error')
+      return
+    }
+
+    const res = await submitLead({ form: 'safety', name, phone, captchaToken })
 
     if (res.ok) {
       ymGoal(GOALS.submitSafety)
@@ -62,7 +78,9 @@ const Safety: FC = () => {
   return (
     <section className={styles.root} id="safety">
       <div className={styles.wrap}>
-        <h2 className={styles.title}>{nbp('Как мы обеспечиваем безопасность')}</h2>
+        <h2 className={styles.title}>
+          {nbp('Как мы обеспечиваем безопасность')}
+        </h2>
 
         <div className={styles.marquee}>
           <div className={styles.track}>
@@ -124,10 +142,12 @@ const Safety: FC = () => {
 
                 {status === 'error' && (
                   <p className={styles.error}>
-                    Не удалось отправить заявку. Попробуйте ещё раз или позвоните
-                    нам.
+                    Не удалось отправить заявку. Попробуйте ещё раз или
+                    позвоните нам.
                   </p>
                 )}
+
+                <SmartCaptcha ref={captchaRef} />
 
                 <Button
                   variant="orange"
@@ -135,7 +155,9 @@ const Safety: FC = () => {
                   type="submit"
                   disabled={!canSubmit || status === 'loading'}
                 >
-                  {status === 'loading' ? 'Отправляем…' : 'Забронировать онлайн'}
+                  {status === 'loading'
+                    ? 'Отправляем…'
+                    : 'Забронировать онлайн'}
                 </Button>
               </form>
             )}
@@ -171,7 +193,9 @@ const Safety: FC = () => {
               <div className={styles.contactRow}>
                 <Glyph name="map-pin" className={styles.rowGlyph} />
                 <span>
-                  {nbp('Королёв, ул. К.Д. Трофимова, 1/2 (справа от стадиона «Чайка»)')}
+                  {nbp(
+                    'Королёв, ул. К.Д. Трофимова, 1/2 (справа от стадиона «Чайка»)'
+                  )}
                 </span>
               </div>
 
@@ -181,7 +205,8 @@ const Safety: FC = () => {
                   Июнь–август: с 11:00 до 19:00
                   <br />
                   <span className={styles.muted}>
-                    В мае и сентябре график может меняться. Позвоните нам для&nbsp;получения точной информации.
+                    В мае и сентябре график может меняться. Позвоните нам
+                    для&nbsp;получения точной информации.
                   </span>
                 </span>
               </div>

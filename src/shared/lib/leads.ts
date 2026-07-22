@@ -1,4 +1,4 @@
-/** Client-side lead submission → POST /api/lead (delivered to Telegram). */
+/** Client-side lead submission → POST /api/lead (delivered to Telegram + email). */
 
 export type LeadForm = 'booking' | 'event' | 'safety'
 
@@ -11,6 +11,8 @@ export type LeadPayload = {
   kids?: string
   adults?: string
   date?: string
+  /** Yandex SmartCaptcha token (empty when captcha is disabled). */
+  captchaToken?: string
 }
 
 export type LeadResult = { ok: boolean; error?: string }

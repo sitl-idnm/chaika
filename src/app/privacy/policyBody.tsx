@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { highlightContacts } from './highlight'
 
+import { highlightContacts } from './highlight'
 import styles from './privacy.module.scss'
 
 const isClause = (line: string) => /^\d/.test(line)

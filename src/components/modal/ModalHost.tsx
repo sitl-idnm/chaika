@@ -1,8 +1,9 @@
 'use client'
 
 import { FC } from 'react'
-import { useAtom } from 'jotai'
 import { modalAtom } from '@/shared/atoms/modalAtom'
+import { useAtom } from 'jotai'
+
 import { BookingModal } from './BookingModal'
 import { EventModal } from './EventModal'
 

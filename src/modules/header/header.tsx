@@ -2,12 +2,12 @@
 
 import { FC, useState } from 'react'
 import Link from 'next/link'
-import classNames from 'classnames'
+import { CONTACTS } from '@/shared/const/contacts'
+import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { nbp } from '@/shared/lib/typography'
 import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
-import { GOALS, ymGoal } from '@/shared/lib/metrika'
-import { CONTACTS } from '@/shared/const/contacts'
-import { nbp } from '@/shared/lib/typography'
+import classNames from 'classnames'
 
 import styles from './header.module.scss'
 

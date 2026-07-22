@@ -1,8 +1,9 @@
 import { FC } from 'react'
+import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
+
 import { CtaButton } from '@/components/cta/CtaButton'
-import { nbp } from '@/shared/lib/typography'
 
 import styles from './Hero.module.scss'
 

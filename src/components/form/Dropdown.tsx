@@ -1,8 +1,8 @@
 'use client'
 
 import { FC, useRef, useState } from 'react'
-import classNames from 'classnames'
 import { useOnClickOutside } from '@/shared/hooks'
+import classNames from 'classnames'
 
 import styles from './Dropdown.module.scss'
 

@@ -1,7 +1,8 @@
 import { FC } from 'react'
-import { Icon } from '@ui/icon'
-import { CtaButton } from '@/components/cta/CtaButton'
 import { nbp } from '@/shared/lib/typography'
+import { Icon } from '@ui/icon'
+
+import { CtaButton } from '@/components/cta/CtaButton'
 
 import styles from './Tracks.module.scss'
 
@@ -15,17 +16,61 @@ const priceHead = [
 ]
 
 const priceRows = [
-  ['Детская', 'с 4 до 11 лет', 'до 80 кг', 'до 3 м', '36,2 м * 63,2 м', '1000 ₽'],
-  ['Учебная', 'для всех возрастов', 'до 100 кг', 'до 3 м', '36,2 м * 27, 9 м', 'вкл. в комплект'],
-  ['Верхняя семейная', 'c 11 лет, от 120 см', 'до 100 кг', 'до 7 м', '153,5 м', '1300 ₽'],
-  ['Верхняя сложная', 'c 11 лет, от 120 см', 'до 100 кг', 'до 7 м', '103,6', '1300 ₽']
+  [
+    'Детская',
+    'с 4 до 11 лет',
+    'до 80 кг',
+    'до 3 м',
+    '36,2 м * 63,2 м',
+    '1000 ₽'
+  ],
+  [
+    'Учебная',
+    'для всех возрастов',
+    'до 100 кг',
+    'до 3 м',
+    '36,2 м * 27, 9 м',
+    'вкл. в комплект'
+  ],
+  [
+    'Верхняя семейная',
+    'c 11 лет, от 120 см',
+    'до 100 кг',
+    'до 7 м',
+    '153,5 м',
+    '1300 ₽'
+  ],
+  [
+    'Верхняя сложная',
+    'c 11 лет, от 120 см',
+    'до 100 кг',
+    'до 7 м',
+    '103,6',
+    '1300 ₽'
+  ]
 ]
 
 const trackMaps = [
-  { src: '/icons/trail-kids.svg', alt: 'детская трасса', cap: 'детская трасса (8 этапов)' },
-  { src: '/icons/trail-family.svg', alt: 'взрослая трасса', cap: 'взрослая трасса (семейная, 13 этапов)' },
-  { src: '/icons/trail-hard.svg', alt: 'сложная трасса', cap: 'сложная трасса' },
-  { src: '/icons/trail-training.svg', alt: 'учебная трасса', cap: 'учебная трасса (3 этапа)' }
+  {
+    src: '/icons/trail-kids.svg',
+    alt: 'детская трасса',
+    cap: 'детская трасса (8 этапов)'
+  },
+  {
+    src: '/icons/trail-family.svg',
+    alt: 'взрослая трасса',
+    cap: 'взрослая трасса (семейная, 13 этапов)'
+  },
+  {
+    src: '/icons/trail-hard.svg',
+    alt: 'сложная трасса',
+    cap: 'сложная трасса'
+  },
+  {
+    src: '/icons/trail-training.svg',
+    alt: 'учебная трасса',
+    cap: 'учебная трасса (3 этапа)'
+  }
 ]
 
 const RopeDeco: FC = () => (
@@ -71,12 +116,12 @@ const Tracks: FC = () => {
         <div className={styles.tableWrap}>
           <table className={styles.priceTable}>
             <thead>
-            <tr>
-              {priceHead.map((h) => (
-                <th key={h}>{h}</th>
-              ))}
-            </tr>
-          </thead>
+              <tr>
+                {priceHead.map((h) => (
+                  <th key={h}>{h}</th>
+                ))}
+              </tr>
+            </thead>
             <tbody>
               {priceRows.map((row) => (
                 <tr key={row[0]}>

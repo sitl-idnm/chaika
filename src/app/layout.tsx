@@ -1,12 +1,13 @@
 import { ReactNode } from 'react'
 import type { Metadata, Viewport } from 'next'
+import { Arsenal, Inter_Tight } from 'next/font/google'
+import { CONTACTS } from '@/shared/const/contacts'
 import { Footer } from '@modules/footer'
 import { Header } from '@modules/header'
-import { ModalHost } from '@/components/modal/ModalHost'
-import { CookieBanner } from '@/components/cookie/CookieBanner'
+
 import { YandexMetrika } from '@/components/analytics/YandexMetrika'
-import { CONTACTS } from '@/shared/const/contacts'
-import { Inter_Tight, Arsenal } from 'next/font/google'
+import { CookieBanner } from '@/components/cookie/CookieBanner'
+import { ModalHost } from '@/components/modal/ModalHost'
 
 import '@styles/global.scss'
 
@@ -85,10 +86,7 @@ export default function RootLayout({
   children: ReactNode
 }>) {
   return (
-    <html
-      lang="ru"
-      className={`${interTight.variable} ${arsenal.variable}`}
-    >
+    <html lang="ru" className={`${interTight.variable} ${arsenal.variable}`}>
       <body>
         <YandexMetrika />
         <Provider>

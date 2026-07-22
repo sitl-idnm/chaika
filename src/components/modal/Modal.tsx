@@ -2,13 +2,13 @@
 
 import { FC, ReactNode, useRef } from 'react'
 import { Portal } from '@/service/portal'
-import { nbp } from '@/shared/lib/typography'
 import {
   useFocusLock,
   useOnClickOutside,
   useOnEscKeydown,
   useScrollLock
 } from '@/shared/hooks'
+import { nbp } from '@/shared/lib/typography'
 
 import styles from './modal.module.scss'
 

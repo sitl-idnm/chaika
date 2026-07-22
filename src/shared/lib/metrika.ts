@@ -28,17 +28,20 @@ export type Goal = (typeof GOALS)[keyof typeof GOALS]
 
 declare global {
   interface Window {
-    ym?: (
-      id: number,
-      action: string,
-      ...args: unknown[]
-    ) => void
+    ym?: (id: number, action: string, ...args: unknown[]) => void
   }
 }
 
 /** Fire a Метрика goal. No-op on the server or before the counter is ready. */
-export function ymGoal(target: Goal | string, params?: Record<string, unknown>) {
-  if (typeof window === 'undefined' || typeof window.ym !== 'function' || !YM_ID) {
+export function ymGoal(
+  target: Goal | string,
+  params?: Record<string, unknown>
+) {
+  if (
+    typeof window === 'undefined' ||
+    typeof window.ym !== 'function' ||
+    !YM_ID
+  ) {
     return
   }
   window.ym(YM_ID, 'reachGoal', target, params)

@@ -2,9 +2,9 @@
 
 import { FC, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@ui/button'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { nbp } from '@/shared/lib/typography'
+import { Button } from '@ui/button'
 
 import styles from './cookie.module.scss'
 

@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { Icon } from '@ui/icon'
 import { nbp } from '@/shared/lib/typography'
+import { Icon } from '@ui/icon'
 
 import styles from './Hammock.module.scss'
 
@@ -10,7 +10,11 @@ const Hammock: FC = () => {
       <div className={styles.wrap}>
         <div className={styles.inner}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/rope-deco-8.svg" alt="" className={styles.ropeDeco} />
+          <img
+            src="/icons/rope-deco-8.svg"
+            alt=""
+            className={styles.ropeDeco}
+          />
 
           <h2 className={styles.title}>
             {nbp('Ребенок под присмотром инструктора, а вы отдыхаете в гамаке')}

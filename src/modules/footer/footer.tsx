@@ -1,12 +1,13 @@
 import { FC } from 'react'
 import Link from 'next/link'
+import { CONTACTS } from '@/shared/const/contacts'
+import { GOALS } from '@/shared/lib/metrika'
+import { nbp } from '@/shared/lib/typography'
 import { Glyph } from '@ui/glyph'
 import { Logo } from '@ui/logo'
+
 import { TrackedLink } from '@/components/analytics/TrackedLink'
 import { YandexMap } from '@/components/widgets/YandexMap'
-import { GOALS } from '@/shared/lib/metrika'
-import { CONTACTS } from '@/shared/const/contacts'
-import { nbp } from '@/shared/lib/typography'
 
 import styles from './footer.module.scss'
 
@@ -63,7 +64,11 @@ const Footer: FC = () => {
           </div>
         </div>
 
-        <Link href="/" className={styles.logoLink} aria-label="Чайка — верёвочный парк">
+        <Link
+          href="/"
+          className={styles.logoLink}
+          aria-label="Чайка — верёвочный парк"
+        >
           <Logo width={85} />
         </Link>
 
@@ -85,7 +90,9 @@ const Footer: FC = () => {
               <img src="/icons/icon-vk.svg" alt="" className={styles.vkIcon} />
               <span>
                 {nbp('Актуальные новости в ')}
-                <span className={styles.underline}>{nbp('нашей группе в ВК')}</span>
+                <span className={styles.underline}>
+                  {nbp('нашей группе в ВК')}
+                </span>
               </span>
             </TrackedLink>
 
@@ -105,7 +112,8 @@ const Footer: FC = () => {
             <div className={styles.infoRow}>
               <Glyph name="map-pin" className={styles.infoGlyph} />
               <span>
-                Королёв, ул. К. Д. Трофимова, ½ (справа от&nbsp;стадиона «Чайка»)
+                Королёв, ул. К. Д. Трофимова, ½ (справа от&nbsp;стадиона
+                «Чайка»)
               </span>
             </div>
           </div>

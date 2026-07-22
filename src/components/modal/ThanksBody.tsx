@@ -1,8 +1,8 @@
 'use client'
 
 import { FC } from 'react'
-import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { CONTACTS } from '@/shared/const/contacts'
+import { GOALS, ymGoal } from '@/shared/lib/metrika'
 
 import styles from './modal.module.scss'
 

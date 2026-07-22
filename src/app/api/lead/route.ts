@@ -1,49 +1,16 @@
 import { NextResponse } from 'next/server'
+import { verifyCaptcha } from '@/shared/lib/captcha'
+import { sendEmail } from '@/shared/lib/notify/email'
+import type { LeadBody } from '@/shared/lib/notify/lead'
+import { sendSheet } from '@/shared/lib/notify/sheet'
+import { sendTelegram } from '@/shared/lib/notify/telegram'
 
 export const runtime = 'nodejs'
 
-type LeadBody = {
-  form?: string
-  name?: string
-  phone?: string
-  email?: string
-  eventType?: string
-  kids?: string
-  adults?: string
-  date?: string
-  page?: string
-  referrer?: string
-}
-
-const FORM_TITLES: Record<string, string> = {
-  booking: '🎟️ Бронирование онлайн',
-  event: '🎉 Заявка на мероприятие',
-  safety: '📞 Заявка «Запишитесь прямо сейчас»'
-}
-
-function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
-
-function buildMessage(b: LeadBody): string {
-  const title = FORM_TITLES[b.form ?? ''] ?? '📩 Заявка с сайта'
-  const lines = [`<b>${esc(title)}</b>`, '']
-
-  const add = (label: string, value?: string) => {
-    if (value && value.trim()) lines.push(`<b>${label}:</b> ${esc(value.trim())}`)
-  }
-
-  add('Имя', b.name)
-  add('Телефон', b.phone)
-  add('Почта', b.email)
-  add('Тип мероприятия', b.eventType)
-  add('Детей', b.kids)
-  add('Взрослых', b.adults)
-  add('Желаемая дата', b.date)
-
-  lines.push('')
-  add('Страница', b.page)
-  return lines.join('\n')
+/** Best-effort client IP for captcha validation (Vercel sets x-forwarded-for). */
+function clientIp(req: Request): string | undefined {
+  const fwd = req.headers.get('x-forwarded-for')
+  return fwd ? fwd.split(',')[0].trim() : undefined
 }
 
 export async function POST(req: Request) {
@@ -64,46 +31,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Некорректный телефон' }, { status: 422 })
   }
 
-  const token = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
-
-  // Graceful degradation: without creds we accept the lead so the UI works,
-  // but log a warning so it's obvious delivery is not yet configured.
-  if (!token || !chatId) {
-    console.warn(
-      '[lead] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set — lead not delivered:',
-      { name, phone: body.phone, form: body.form }
+  // Captcha (no-op when SMARTCAPTCHA_SERVER_KEY is unset).
+  const captchaOk = await verifyCaptcha(body.captchaToken, clientIp(req))
+  if (!captchaOk) {
+    return NextResponse.json(
+      { error: 'Не удалось подтвердить, что вы не робот' },
+      { status: 403 }
     )
-    return NextResponse.json({ ok: true, delivered: false })
   }
 
-  try {
-    const tg = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: buildMessage(body),
-        parse_mode: 'HTML',
-        disable_web_page_preview: true
-      })
-    })
+  // Deliver to all channels; one failing channel must not fail the others.
+  const [tg, email, sheet] = await Promise.all([
+    sendTelegram(body),
+    sendEmail(body),
+    sendSheet(body)
+  ])
 
-    if (!tg.ok) {
-      const detail = await tg.text().catch(() => '')
-      console.error('[lead] Telegram error', tg.status, detail)
-      return NextResponse.json(
-        { error: 'Не удалось отправить заявку' },
-        { status: 502 }
-      )
-    }
+  const attempted = [tg, email, sheet].filter((r) => !r.skipped)
+  const delivered = attempted.some((r) => r.ok)
 
-    return NextResponse.json({ ok: true, delivered: true })
-  } catch (e) {
-    console.error('[lead] Telegram request failed', e)
+  if (attempted.length > 0 && !delivered) {
+    // Every configured channel failed — surface an error so the UI can retry.
     return NextResponse.json(
       { error: 'Не удалось отправить заявку' },
       { status: 502 }
     )
   }
+
+  // delivered=false here means no channel is configured yet (graceful dev mode).
+  return NextResponse.json({ ok: true, delivered })
 }

@@ -1,10 +1,10 @@
 'use client'
 
 import { FC, ReactNode } from 'react'
-import { useSetAtom } from 'jotai'
-import { Button } from '@ui/button'
 import { modalAtom, ModalId } from '@/shared/atoms/modalAtom'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import { Button } from '@ui/button'
+import { useSetAtom } from 'jotai'
 
 type CtaButtonProps = {
   modal: Exclude<ModalId, null>

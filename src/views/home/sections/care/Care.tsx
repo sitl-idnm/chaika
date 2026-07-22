@@ -1,7 +1,7 @@
 import { FC } from 'react'
+import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
-import { nbp } from '@/shared/lib/typography'
 
 import styles from './Care.module.scss'
 
@@ -46,9 +46,7 @@ const row2: CareItem[] = [
 ]
 
 const CareCard: FC<{ item: CareItem }> = ({ item }) => (
-  <div
-    className={`${styles.card} ${item.green ? styles.green : styles.lite}`}
-  >
+  <div className={`${styles.card} ${item.green ? styles.green : styles.lite}`}>
     <div className={styles.head}>
       <Icon name={item.icon} size={32} className={styles.icon} />
       <span className={styles.cardTitle}>{nbp(item.title)}</span>

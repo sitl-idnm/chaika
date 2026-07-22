@@ -1,7 +1,8 @@
 import { FC } from 'react'
-import { Icon } from '@ui/icon'
-import { CtaButton } from '@/components/cta/CtaButton'
 import { nbp } from '@/shared/lib/typography'
+import { Icon } from '@ui/icon'
+
+import { CtaButton } from '@/components/cta/CtaButton'
 
 import styles from './Party.module.scss'
 

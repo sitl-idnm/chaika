@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import { rulesTitle, rulesBlocks } from './rulesContent'
-import { renderPolicyBody } from '../privacy/policyBody'
 
+import { renderPolicyBody } from '../privacy/policyBody'
 import styles from '../privacy/privacy.module.scss'
+import { rulesBlocks, rulesTitle } from './rulesContent'
 
 export const metadata = {
   title: 'Правила посещения',
