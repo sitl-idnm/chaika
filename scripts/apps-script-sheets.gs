@@ -40,7 +40,10 @@ function doPost(e) {
     rows.forEach(function (row) {
       const id = String(row[0] || '');
       if (id && existing[id]) return; // уже есть — пропускаем
-      sh.appendRow(row);
+      const r = sh.getLastRow() + 1;
+      const range = sh.getRange(r, 1, 1, row.length);
+      range.setNumberFormat('@'); // весь ряд как текст: «+7…» не парсится в формулу (#ERROR!)
+      range.setValues([row]);
       existing[id] = true;
       added++;
     });
