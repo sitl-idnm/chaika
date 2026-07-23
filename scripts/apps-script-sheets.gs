@@ -14,6 +14,18 @@
 const SECRET = 'PASTE_YOUR_SHEETS_WEBAPP_SECRET_HERE'; // must equal SHEETS_WEBAPP_SECRET in env
 const SHEET_NAME = 'Лист1'; // имя листа с заявками (поменяйте, если другое)
 
+// Названия столбцов (создаются автоматически, если лист пустой).
+const HEADERS = [
+  'id',
+  'Дата',
+  'Имя',
+  'Телефон',
+  'E-mail',
+  'Форма',
+  'Страница/Кампания',
+  'Источник'
+];
+
 function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents || '{}');
@@ -24,6 +36,14 @@ function doPost(e) {
     const sh =
       SpreadsheetApp.getActive().getSheetByName(SHEET_NAME) ||
       SpreadsheetApp.getActive().getSheets()[0];
+
+    // Шапка: если лист пустой — создаём строку с названиями и закрепляем её.
+    if (sh.getLastRow() === 0) {
+      const head = sh.getRange(1, 1, 1, HEADERS.length);
+      head.setValues([HEADERS]);
+      head.setFontWeight('bold');
+      sh.setFrozenRows(1);
+    }
 
     // Дедуп по id (первый столбец).
     const existing = {};
