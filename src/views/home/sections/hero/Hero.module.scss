@@ -107,11 +107,8 @@ $hero-overlay: radial-gradient(
 
   @include mixins.mobile {
     flex-direction: column;
+    align-self: stretch;
     gap: 6px;
-  }
-
-  > * {
-    flex: 1;
   }
 }
 

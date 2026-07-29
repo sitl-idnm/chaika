@@ -147,11 +147,9 @@
   white-space: pre-line;
 }
 
-/* Same width as one card in the 3-column row ("Добавляем время…") */
+/* Natural width, matching CTA buttons in the other blocks (e.g. «Батут») */
 .safetyBtn {
-  width: calc((100% - 32px) / 3);
-
-  @include mixins.tablet {
+  @include mixins.mobile {
     width: 100%;
   }
 }

@@ -19,8 +19,7 @@ export const ThanksBody: FC = () => (
       className={styles.subscribe}
       onClick={() => ymGoal(GOALS.clickVk)}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icons/icon-vk.svg" alt="" />
+      <span className={styles.vkIcon} aria-hidden="true" />
       Подписаться на группу в ВК
     </a>
   </div>

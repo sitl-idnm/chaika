@@ -237,8 +237,12 @@
     opacity: 0.7;
   }
 
-  img {
-    width: 24px;
-    height: 14px;
+  .vkIcon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    background-color: var(--orange-main);
+    mask: url(/icons/icon-vk.svg) center / contain no-repeat;
+    -webkit-mask: url(/icons/icon-vk.svg) center / contain no-repeat;
   }
 }
