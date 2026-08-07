@@ -1,61 +1,28 @@
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
+import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
 
 import styles from './Care.module.scss'
 
-type CareItem = {
-  icon: IconName
-  title: string
-  body: string
-  green?: boolean
-}
-
-const row1: CareItem[] = [
-  {
-    icon: 'helmet',
-    title: 'Бесплатный инструктор',
-    body: 'Проведем ребёнка по детской трассе, подстрахуем и поможем преодолеть страх. А вы отдыхайте в гамаке',
-    green: true
-  },
-  {
-    icon: 'stock',
-    title: 'Непрерывная страховка',
-    body: 'Используем профессиональное оборудование: Petzl, Kong, VENTO.\nРебенок не отстегнется на высоте'
-  }
-]
-
-const row2: CareItem[] = [
-  {
-    icon: 'hourglass',
-    title: 'Добавляем время, если ребёнок не успел пройти трассу',
-    body: 'Купили билет на час и не успели пройти трассу? Добавим время, чтобы завершить приключение'
-  },
-  {
-    icon: 'forest',
-    title: 'Трассы для всех возрастов',
-    body: 'Будет интересно и взрослым и детям.\nА еще лучше приходите большой компанией и провести время вместе',
-    green: true
-  },
-  {
-    icon: 'check-circle',
-    title: 'Контроль качества',
-    body: 'Ежедневная проверка трасс и снаряжения. Сертифицированные инструкторы'
-  }
-]
+type CareItem = SiteContent['care']['cards'][number]
 
 const CareCard: FC<{ item: CareItem }> = ({ item }) => (
   <div className={`${styles.card} ${item.green ? styles.green : styles.lite}`}>
     <div className={styles.head}>
-      <Icon name={item.icon} size={32} className={styles.icon} />
+      <Icon name={item.icon as IconName} size={32} className={styles.icon} />
       <span className={styles.cardTitle}>{nbp(item.title)}</span>
     </div>
     <div className={styles.body}>{nbp(item.body)}</div>
   </div>
 )
 
-const Care: FC = () => {
+const Care: FC<{ data: SiteContent['care'] }> = ({ data }) => {
+  const row1 = data.cards.slice(0, 2)
+  const row2 = data.cards.slice(2, 5)
+  const titleLines = data.title.split('\n')
+
   return (
     <section className={styles.root}>
       <div className={styles.wrap}>
@@ -63,9 +30,12 @@ const Care: FC = () => {
         <img src="/images/care.png" alt="" className={styles.photo} />
 
         <h2 className={styles.title}>
-          {nbp('Парк, где заботятся о детях')}
-          <br />
-          {nbp('и спокойствии родителей')}
+          {titleLines.map((line, i) => (
+            <Fragment key={i}>
+              {i > 0 && <br />}
+              {nbp(line)}
+            </Fragment>
+          ))}
         </h2>
 
         <div className={styles.grid}>
@@ -87,7 +57,7 @@ const Care: FC = () => {
           variant="orange"
           className={styles.safetyBtn}
         >
-          Как обеспечивается безопасность?
+          {data.safetyBtn}
         </Button>
       </div>
     </section>

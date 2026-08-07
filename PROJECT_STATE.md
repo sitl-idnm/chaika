@@ -71,8 +71,10 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 4. Tracks — «4 трассы» + price table + trail maps + Батут (`.../tracks`)
 5. Hammock banner (`.../hammock`)
 6. Party — tabs + kids photo (`.../party`)
-7. Safety — chips + booking form + contacts + reviews stub (`.../safety`)
-8. Footer (`src/modules/footer`)
+7. Tariffs — «Наши тарифы» 4 карточки (LITE/PROSTO/PREMIUM/LUX) + раскрывающийся
+   тайминг + панели «В каждом тарифе» / «Как забронировать» (`.../tariffs`)
+8. Safety — chips + booking form + contacts + reviews stub (`.../safety`)
+9. Footer (`src/modules/footer`)
 
 ---
 
@@ -87,6 +89,19 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 | Tracks (+ price table, trail maps, trampoline) | section | ✅ Done | `.../sections/tracks/` |
 | Hammock banner | section | ✅ Done | `.../sections/hammock/` |
 | Party (tabs state) | section | ✅ Done | `.../sections/party/` |
+| Tariffs (4 tariff cards + per-card timing toggle + 2 panels) | section | ✅ Done | `.../sections/tariffs/` |
+
+**Tariffs section notes**: highlighted (green) card is data-driven per card via
+`tariffs.cards[].highlight` (checkbox in admin) — default PROSTO, badge
+«Популярный». Timing opens with an animatable `grid-template-rows: 0fr→1fr`
+(smooth). Mobile: cards become a scroll-snap horizontal carousel (84% width).
+Each card CTA opens the **event** modal and pre-selects its tariff (via
+`tariffPrefillAtom`, `src/shared/atoms/modalAtom.ts`). Event form (`EventModal`)
+replaced «Количество взрослых» with a **Тариф** `Dropdown` (options =
+`tariffs.cards[].name`, passed through `ModalHost`) and added **«Время начала
+мероприятия»** (`Dropdown`, 11:00–16:00). Both new fields flow to Telegram/email
+via `notify/lead.ts#leadFields` (`Тариф`, `Время начала`). Party block: added
+list item «от 6 детей».
 | Safety (booking form state) | section | ✅ Done | `.../sections/safety/` |
 | Button (orange/light) | ui | ✅ Done | `src/ui/button/` |
 | Icon (masked Tilda icons) | ui | ✅ Done | `src/ui/icon/` |
@@ -202,3 +217,42 @@ input/small `8` · button `12` · card `16`/`24` · chip/pill `100`/`160` · pan
 | Computed fonts (Playwright) | ✅ body=Inter Tight, hero/logo=Arsenal (no Times New Roman) |
 | Desktop / tablet / mobile screenshots | ✅ match reference; burger + single-column on mobile |
 | Assets load | ✅ hero bg, kids.png, 4 trail SVGs, masked icons |
+
+---
+
+## Admin panel (/admin) — CMS + Метрика
+
+Внутренняя панель для редактирования **всех** текстов/ссылок сайта и просмотра
+графиков Яндекс.Метрики. Дизайн — из хендоффа `design_handoff_tool_panel`
+(панель KIM Agency), перекрашен в цвета Чайки (зелёный сайдбар, оранжевый акцент,
+вордмарк «Чайка» шрифтом Arsenal).
+
+- **Контент**: `src/shared/content/defaults.ts` — единый источник всех строк;
+  `getContent.ts#getSiteContent()` мёржит оверрайд из Supabase поверх defaults
+  (tagged fetch, `revalidateTag('site-content')`, фолбэк на defaults). Секции
+  сайта читают контент; клиентские компоненты получают его пропсами.
+- **Хранилище**: Supabase таблица `public.chaika_site_content` (проект
+  `pjwatmyizuaomuqwidma`, одна строка jsonb). RLS: публичный SELECT, запись —
+  service-role ключом. Без supabase-js (обычный fetch к PostgREST).
+- **Авторизация**: один пароль (`ADMIN_PASSWORD`), `src/middleware.ts` +
+  подписанная cookie (`adminAuth.ts`, Web Crypto). `/api/admin/{login,logout}`.
+- **Структура**: route-группы `app/(site)` (публичный сайт) и `app/(admin)`
+  (панель). Дашборд → `/admin/[group]` (форма, генерируемая из дерева контента,
+  `ContentEditor.tsx`) → `POST /api/admin/content` (запись + revalidate).
+- **Метрика**: дашборд `/admin` → `metrikaStat.ts` (Stat API, OAuth-токен) →
+  KPI-карточки + SVG-график `LineChart` + цели/источники/устройства/страницы
+  (`BarList`). Без токена — плашка-заглушка. Правка контента — `/admin/content`.
+- **Редактируемые группы** (`_lib/groups.ts`): contacts, hero, care, hammock,
+  tracks, party, **tariffs** (добавлена вместе с блоком «Наши тарифы»), safety,
+  header, footer, forms, modals, meta, legal. Форма генерится рекурсивно из
+  дерева `DEFAULT_CONTENT` — новые группы редактируемы автоматически.
+
+### Требуется вручную (env: `.env.local` + Vercel)
+| Переменная | Зачем |
+|-----------|-------|
+| `SUPABASE_URL`, `SUPABASE_ANON_KEY` | чтение контента (уже проставлены локально) |
+| `SUPABASE_SERVICE_ROLE_KEY` | **обязательно для сохранения** (Dashboard → Settings → API) |
+| `ADMIN_PASSWORD` | пароль входа (дев: `chaika-admin` — сменить!) |
+| `ADMIN_SESSION_SECRET` | подпись cookie (случайный hex, уже сгенерирован) |
+| `YANDEX_METRIKA_OAUTH_TOKEN` | графики Метрики (oauth.yandex.ru); без него — заглушка |
+| `YANDEX_METRIKA_COUNTER_ID` | номер счётчика (по умолч. 110512444) |

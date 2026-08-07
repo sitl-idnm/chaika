@@ -1,10 +1,11 @@
 import { FC } from 'react'
+import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
 import { Icon } from '@ui/icon'
 
 import styles from './Hammock.module.scss'
 
-const Hammock: FC = () => {
+const Hammock: FC<{ data: SiteContent['hammock'] }> = ({ data }) => {
   return (
     <section className={styles.root}>
       <div className={styles.wrap}>
@@ -16,32 +17,21 @@ const Hammock: FC = () => {
             className={styles.ropeDeco}
           />
 
-          <h2 className={styles.title}>
-            {nbp('Ребенок под присмотром инструктора, а вы отдыхаете в гамаке')}
-          </h2>
+          <h2 className={styles.title}>{nbp(data.title)}</h2>
 
           <div className={styles.body}>
             <div className={styles.group}>
-              <p>
-                {nbp(
-                  `Боитесь, что ребенок испугается высоты или зависнет на трассе?
-Наш инструктор пройдет маршрут вместе с ним: подстрахует, подскажет, поможет преодолеть страх.`
-                )}
-              </p>
+              <p>{nbp(data.para1)}</p>
               <div className={styles.free}>
                 <Icon name="kid" size={32} className={styles.freeIcon} />
                 <span>
-                  Услуга — <span className={styles.accent}>бесплатная</span>
-                  {nbp(' для детской трассы')}
+                  {data.freePrefix}
+                  <span className={styles.accent}>{data.freeAccent}</span>
+                  {nbp(data.freeSuffix)}
                 </span>
               </div>
             </div>
-            <p>
-              {nbp(
-                `Также всегда дежурят инструкторы-спасатели, которые имеют сертификацию и спасательный комплект для эвакуации.
-А вы можете спокойно сидеть в тени с видом на трассы, пить кофе и наблюдать.`
-              )}
-            </p>
+            <p>{nbp(data.para2)}</p>
           </div>
         </div>
       </div>

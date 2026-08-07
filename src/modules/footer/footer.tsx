@@ -1,6 +1,5 @@
-import { FC } from 'react'
 import Link from 'next/link'
-import { CONTACTS } from '@/shared/const/contacts'
+import { getSiteContent } from '@/shared/content'
 import { GOALS } from '@/shared/lib/metrika'
 import { nbp } from '@/shared/lib/typography'
 import { Glyph } from '@ui/glyph'
@@ -11,29 +10,16 @@ import { YandexMap } from '@/components/widgets/YandexMap'
 
 import styles from './footer.module.scss'
 
-const navLinks = [
-  { href: '/#tracks', label: 'Трассы и цены' },
-  { href: '/#safety', label: 'Безопасность' },
-  { href: '/#party', label: 'Мероприятия' }
-]
+const Footer = async () => {
+  const { header, footer, contacts } = await getSiteContent()
 
-const legalLinks = [
-  { href: '/rules', label: 'Правила посещения верёвочного парка «Чайка»' },
-  {
-    href: '/privacy',
-    label:
-      'Политика обработки персональных данных и\u00A0Пользовательское соглашение'
-  }
-]
-
-const Footer: FC = () => {
   return (
     <footer className={styles.root}>
       <div className={styles.wrap}>
         <div className={styles.leftCol}>
           <div className={styles.left}>
             <nav className={styles.nav}>
-              {navLinks.map((link) => (
+              {header.nav.map((link) => (
                 <Link key={link.href} href={link.href}>
                   {nbp(link.label)}
                 </Link>
@@ -41,7 +27,7 @@ const Footer: FC = () => {
             </nav>
 
             <div className={styles.links}>
-              {legalLinks.map((link) => (
+              {footer.legalLinks.map((link) => (
                 <Link key={link.label} href={link.href}>
                   {nbp(link.label)}
                 </Link>
@@ -50,17 +36,8 @@ const Footer: FC = () => {
           </div>
 
           <div className={styles.legal}>
-            <span className={styles.legalName}>ИП АРХИПОВ ДЕНИС АНДРЕЕВИЧ</span>
-            <span className={styles.legalReq}>
-              {`ИНН: 773390244425
-ОГРНИП: 324774600195600
-Расчётный счёт: 40802810938000409599
-Банк: ПАО Сбербанк
-БИК банка: 044525225
-Корсчёт: 30101810400000000225
-ИНН банка: 7707083893
-КПП банка: 773643001`}
-            </span>
+            <span className={styles.legalName}>{footer.legalName}</span>
+            <span className={styles.legalReq}>{footer.legalReq}</span>
           </div>
         </div>
 
@@ -79,7 +56,7 @@ const Footer: FC = () => {
 
           <div className={styles.info}>
             <TrackedLink
-              href={CONTACTS.vk}
+              href={contacts.vk}
               target="_blank"
               rel="noreferrer"
               className={styles.infoRow}
@@ -89,39 +66,30 @@ const Footer: FC = () => {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/icon-vk.svg" alt="" className={styles.vkIcon} />
               <span>
-                {nbp('Актуальные новости в ')}
-                <span className={styles.underline}>
-                  {nbp('нашей группе в ВК')}
-                </span>
+                {nbp(footer.vkPrefix)}
+                <span className={styles.underline}>{nbp(footer.vkAccent)}</span>
               </span>
             </TrackedLink>
 
             <div className={styles.infoRow}>
               <Glyph name="clock" className={styles.infoGlyph} />
               <span>
-                {nbp('Июнь–август: с 11:00 до 19:00')}
+                {nbp(contacts.hours)}
                 <br />
-                <span className={styles.muted}>
-                  {nbp(
-                    'В мае и сентябре график может меняться. Позвоните нам для получения точной информации'
-                  )}
-                </span>
+                <span className={styles.muted}>{nbp(contacts.hoursNote)}</span>
               </span>
             </div>
 
             <div className={styles.infoRow}>
               <Glyph name="map-pin" className={styles.infoGlyph} />
-              <span>
-                Королёв, ул. К. Д. Трофимова, ½ (справа от&nbsp;стадиона
-                «Чайка»)
-              </span>
+              <span>{nbp(contacts.address)}</span>
             </div>
           </div>
 
           <div className={styles.buttons}>
             <TrackedLink
               className={styles.contactBtn}
-              href={CONTACTS.phoneHref}
+              href={contacts.phoneHref}
               goal={GOALS.clickPhone}
               goalParams={{ place: 'footer' }}
             >
@@ -130,7 +98,7 @@ const Footer: FC = () => {
             </TrackedLink>
             <TrackedLink
               className={styles.contactBtn}
-              href={CONTACTS.telegram}
+              href={contacts.telegram}
               target="_blank"
               rel="noreferrer"
               goal={GOALS.clickTelegram}

@@ -9,7 +9,8 @@ export type LeadPayload = {
   email?: string
   eventType?: string
   kids?: string
-  adults?: string
+  tariff?: string
+  startTime?: string
   date?: string
   /** Yandex SmartCaptcha token (empty when captcha is disabled). */
   captchaToken?: string

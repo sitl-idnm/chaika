@@ -7,7 +7,8 @@ export type LeadBody = {
   email?: string
   eventType?: string
   kids?: string
-  adults?: string
+  tariff?: string
+  startTime?: string
   date?: string
   page?: string
   referrer?: string
@@ -34,8 +35,9 @@ export function leadFields(b: LeadBody): Array<[string, string]> {
   add('Телефон', b.phone)
   add('Почта', b.email)
   add('Тип мероприятия', b.eventType)
+  add('Тариф', b.tariff)
   add('Детей', b.kids)
-  add('Взрослых', b.adults)
+  add('Время начала', b.startTime)
   add('Желаемая дата', b.date)
   add('Страница', b.page)
   return pairs

@@ -2,10 +2,12 @@
 
 import { FC, FormEvent, useRef, useState } from 'react'
 import Link from 'next/link'
+import { tariffPrefillAtom } from '@/shared/atoms/modalAtom'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
 import { Button } from '@ui/button'
+import { useAtomValue } from 'jotai'
 
 import { Dropdown } from '@/components/form/Dropdown'
 import { NumberField } from '@/components/form/NumberField'
@@ -17,16 +19,28 @@ import {
 
 import { Modal } from './Modal'
 import styles from './modal.module.scss'
+import { type ModalContent } from './ModalHost'
 import { ThanksBody } from './ThanksBody'
 
-export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+const START_TIMES = ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00']
+
+export const EventModal: FC<{ onClose: () => void } & ModalContent> = ({
+  onClose,
+  modals,
+  forms,
+  contacts,
+  tariffs
+}) => {
+  // Pre-selected tariff (set when a tariff card's «Забронировать» is clicked).
+  const prefillTariff = useAtomValue(tariffPrefillAtom)
   const [form, setForm] = useState({
     name: '',
     phone: '',
     email: '',
     type: 'День Рождения',
     kids: '',
-    adults: '',
+    tariff: prefillTariff,
+    startTime: '',
     date: ''
   })
   const [agree, setAgree] = useState(false)
@@ -62,7 +76,8 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
       email: form.email,
       eventType: form.type,
       kids: form.kids,
-      adults: form.adults,
+      tariff: form.tariff,
+      startTime: form.startTime,
       date: form.date,
       captchaToken
     })
@@ -79,35 +94,35 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   if (submitted) {
     return (
       <Modal
-        title="Ваша заявка принята!"
-        subtitle="Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения бронирования."
+        title={modals.thanksTitle}
+        subtitle={modals.thanksSubtitle}
         onClose={onClose}
       >
-        <ThanksBody />
+        <ThanksBody modals={modals} contacts={contacts} />
       </Modal>
     )
   }
 
   return (
     <Modal
-      title="Оставьте заявку на мероприятие"
-      subtitle="Рассчитаем стоимость, согласуем дату и программу"
+      title={modals.eventTitle}
+      subtitle={modals.eventSubtitle}
       onClose={onClose}
     >
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.field}>
-          <label htmlFor="e-name">Имя*</label>
+          <label htmlFor="e-name">{forms.nameLabel}</label>
           <input
             id="e-name"
             type="text"
-            placeholder="Как вас зовут?"
+            placeholder={forms.namePlaceholder}
             value={form.name}
             onChange={(e) => set('name')(e.target.value)}
           />
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="e-phone">Телефон*</label>
+          <label htmlFor="e-phone">{forms.phoneLabel}</label>
           <PhoneInput
             id="e-phone"
             value={form.phone}
@@ -137,6 +152,19 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           />
         </div>
 
+        {tariffs.length > 0 && (
+          <div className={styles.field}>
+            <label htmlFor="e-tariff">Тариф</label>
+            <Dropdown
+              id="e-tariff"
+              value={form.tariff}
+              options={tariffs}
+              onChange={set('tariff')}
+              placeholder="Выберите тариф"
+            />
+          </div>
+        )}
+
         <div className={styles.grid2}>
           <div className={styles.field}>
             <label htmlFor="e-kids">Количество детей:</label>
@@ -148,12 +176,13 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="e-adults">Количество взрослых:</label>
-            <NumberField
-              id="e-adults"
-              placeholder="12"
-              value={form.adults}
-              onChange={set('adults')}
+            <label htmlFor="e-start">Время начала мероприятия:</label>
+            <Dropdown
+              id="e-start"
+              value={form.startTime}
+              options={START_TIMES}
+              onChange={set('startTime')}
+              placeholder="Выберите время"
             />
           </div>
         </div>
@@ -177,17 +206,13 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
             onChange={(e) => setAgree(e.target.checked)}
           />
           <span>
-            Я принимаю условия{' '}
-            <Link href="/privacy">Политики обработки персональных данных</Link>{' '}
-            и даю согласие на обработку моих персональных данных.
+            {forms.consentPrefix}
+            <Link href="/privacy">{forms.consentLink}</Link>
+            {forms.consentSuffix}
           </span>
         </label>
 
-        {status === 'error' && (
-          <p className={styles.error}>
-            Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.
-          </p>
-        )}
+        {status === 'error' && <p className={styles.error}>{forms.error}</p>}
 
         <SmartCaptcha ref={captchaRef} />
 
@@ -197,7 +222,7 @@ export const EventModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           type="submit"
           disabled={!canSubmit || status === 'loading'}
         >
-          {status === 'loading' ? 'Отправляем…' : 'Отправить заявку'}
+          {status === 'loading' ? forms.sending : forms.submitEvent}
         </Button>
       </form>
     </Modal>

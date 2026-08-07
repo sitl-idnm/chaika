@@ -2,7 +2,7 @@
 
 import { FC, useState } from 'react'
 import Link from 'next/link'
-import { CONTACTS } from '@/shared/const/contacts'
+import { type SiteContent } from '@/shared/content/defaults'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { nbp } from '@/shared/lib/typography'
 import { Glyph } from '@ui/glyph'
@@ -11,14 +11,14 @@ import classNames from 'classnames'
 
 import styles from './header.module.scss'
 
-const navLinks = [
-  { href: '/#tracks', label: 'Трассы и цены' },
-  { href: '/#safety', label: 'Безопасность' },
-  { href: '/#party', label: 'Мероприятия' }
-]
+type HeaderProps = {
+  header: SiteContent['header']
+  contacts: SiteContent['contacts']
+}
 
-const Header: FC = () => {
+const Header: FC<HeaderProps> = ({ header, contacts }) => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navLinks = header.nav
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -44,17 +44,17 @@ const Header: FC = () => {
         <div className={styles.right}>
           <a
             className={styles.routeLink}
-            href={CONTACTS.maps}
+            href={contacts.maps}
             target="_blank"
             rel="noreferrer"
           >
             <Glyph name="map-pin" className={styles.glyph} />
-            <span className={styles.routeText}>Построить маршрут</span>
+            <span className={styles.routeText}>{header.routeText}</span>
           </a>
 
           <div className={styles.contacts}>
             <a
-              href={CONTACTS.telegram}
+              href={contacts.telegram}
               target="_blank"
               rel="noreferrer"
               aria-label="Telegram"
@@ -63,14 +63,14 @@ const Header: FC = () => {
               <Glyph name="telegram" className={styles.glyph} />
             </a>
             <a
-              href={CONTACTS.phoneHref}
+              href={contacts.phoneHref}
               aria-label="Позвонить"
               onClick={() => ymGoal(GOALS.clickPhone, { place: 'header' })}
             >
               <Glyph name="phone" className={styles.glyph} />
             </a>
             <a
-              href={CONTACTS.vk}
+              href={contacts.vk}
               target="_blank"
               rel="noreferrer"
               aria-label="ВКонтакте"
@@ -110,14 +110,14 @@ const Header: FC = () => {
             </Link>
           ))}
           <a
-            href={CONTACTS.maps}
+            href={contacts.maps}
             target="_blank"
             rel="noreferrer"
             className={styles.mobileRoute}
             onClick={closeMenu}
           >
             <Glyph name="map-pin" className={styles.glyph} />
-            Построить маршрут
+            {header.routeText}
           </a>
         </nav>
       )}

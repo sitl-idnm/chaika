@@ -1,0 +1,496 @@
+@use '@styles/mixins';
+
+.root {
+  @include mixins.section-block;
+}
+
+.wrap {
+  @include mixins.container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  @include mixins.tablet {
+    gap: 32px;
+  }
+
+  @include mixins.mobile {
+    gap: 24px;
+  }
+}
+
+/* ---- Intro ---- */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.title {
+  @include mixins.section-title;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--dark-600);
+
+  @include mixins.mobile {
+    font-size: 16px;
+  }
+}
+
+/* ---- Tariff grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: stretch;
+
+  @include mixins.tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // On phones the cards become a horizontal, snap-scrolling carousel.
+  @include mixins.mobile {
+    display: flex;
+    grid-template-columns: none;
+    gap: 12px;
+    margin-inline: -12px;
+    padding: 4px 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px 28px;
+  border-radius: var(--radius-card);
+  background: var(--surface-card);
+  box-shadow: inset 0 0 0 1px var(--dark-100);
+  color: var(--dark-main);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 0 0 1px var(--dark-100),
+      0 10px 28px rgba(21, 21, 21, 0.08);
+  }
+
+  @include mixins.mobile {
+    flex: 0 0 84%;
+    padding: 24px 20px;
+    scroll-snap-align: start;
+
+    &:hover {
+      transform: none;
+      box-shadow: inset 0 0 0 1px var(--dark-100);
+    }
+  }
+}
+
+.card.highlight {
+  background: var(--green-main);
+  box-shadow: none;
+  color: var(--light-main);
+
+  &:hover {
+    box-shadow: 0 12px 30px rgba(53, 92, 75, 0.28);
+  }
+
+  @include mixins.mobile {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--green-main);
+
+  .highlight & {
+    color: var(--light-main);
+  }
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: var(--radius-chip);
+  background: var(--orange-main);
+  color: var(--light-main);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--orange-main);
+
+  .highlight & {
+    color: var(--light-main);
+  }
+}
+
+.per {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--dark-600);
+
+  .highlight & {
+    color: var(--light-600);
+  }
+}
+
+.hours {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark-600);
+
+  .highlight & {
+    color: var(--light-600);
+  }
+}
+
+.divider {
+  display: block;
+  height: 1px;
+  background: var(--dark-100);
+
+  .highlight & {
+    background: var(--light-200);
+  }
+}
+
+/* ---- Features ---- */
+.features {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.check {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--green-main);
+  color: var(--light-main);
+
+  .highlight & {
+    background: var(--light-main);
+    color: var(--green-main);
+  }
+}
+
+/* ---- Footer (toggle + timing + CTA) ---- */
+.footer {
+  display: flex;
+  flex-direction: column;
+
+  // CTA is the last button — always 12px below the toggler / open timing.
+  > button:last-of-type {
+    margin-top: 12px;
+  }
+}
+
+.toggle {
+  @include mixins.reset-btn;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--green-main);
+  transition: background-color 0.18s ease;
+
+  &:hover {
+    background: var(--green-100);
+  }
+
+  .highlight & {
+    color: var(--light-main);
+
+    &:hover {
+      background: var(--light-100);
+    }
+  }
+}
+
+.caretWrap {
+  display: inline-flex;
+  transition: transform 0.28s ease;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.caret {
+  display: block;
+}
+
+// Smooth open/close via animatable grid track (0fr → 1fr) — no fixed height.
+.timingWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.timingOpen {
+  grid-template-rows: 1fr;
+}
+
+.timingInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.timing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: var(--radius-button);
+  background: var(--green-100);
+
+  .highlight & {
+    background: var(--light-100);
+  }
+}
+
+.timingRow {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.timingTime {
+  flex-shrink: 0;
+  width: 84px;
+  font-weight: 600;
+  color: var(--green-main);
+
+  .highlight & {
+    color: var(--light-main);
+  }
+}
+
+/* ---- Bottom panels ---- */
+.panels {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+
+  @include mixins.tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.included {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+  border-radius: var(--radius-card);
+  background: var(--surface-card);
+  box-shadow: inset 0 0 0 1px var(--dark-100);
+
+  @include mixins.mobile {
+    padding: 24px 20px;
+  }
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.includedList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.includedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.checkBig {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--green-main);
+  color: var(--light-main);
+}
+
+.extras {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.extrasTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--green-main);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: var(--radius-chip);
+  background: var(--orange-100);
+  color: var(--orange-active);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.extrasNote {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--dark-600);
+}
+
+.booking {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  border-radius: var(--radius-card);
+  background: var(--green-main);
+  color: var(--light-main);
+
+  @include mixins.mobile {
+    padding: 24px 20px;
+  }
+
+  .panelTitle {
+    color: var(--light-main);
+  }
+}
+
+.bookingText {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.bookingNote {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--light-600);
+}
+
+.bookingContact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.bookingPhone {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--light-main);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.bookingManager {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--light-600);
+}

@@ -1,10 +1,9 @@
-/** Single source of truth for the park's public contacts. */
-export const CONTACTS = {
-  phoneDisplay: '+7 926 242-06-08',
-  phoneHref: 'tel:+79262420608',
-  vk: 'https://vk.com/chaika_park',
-  telegram: 'https://telegram.me/chaika_park',
-  site: 'https://chaikapark.ru',
-  /** Yandex.Maps org card (route / reviews). */
-  maps: 'https://yandex.ru/maps/org/chayka/193894342382/'
-} as const
+import { DEFAULT_CONTENT } from '@/shared/content/defaults'
+
+/**
+ * Default contacts, sourced from the CMS defaults. This is the *fallback* /
+ * build-time value — anything rendered on the client that must reflect live
+ * admin edits receives contacts via props from a server component that calls
+ * `getSiteContent()`. Kept for backward compatibility and static usage.
+ */
+export const CONTACTS = DEFAULT_CONTENT.contacts

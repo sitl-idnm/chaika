@@ -15,9 +15,15 @@ import {
 
 import { Modal } from './Modal'
 import styles from './modal.module.scss'
+import { type ModalContent } from './ModalHost'
 import { ThanksBody } from './ThanksBody'
 
-export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+export const BookingModal: FC<{ onClose: () => void } & ModalContent> = ({
+  onClose,
+  modals,
+  forms,
+  contacts
+}) => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [agree, setAgree] = useState(false)
@@ -56,31 +62,31 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   if (submitted) {
     return (
       <Modal
-        title="Ваша заявка принята!"
-        subtitle="Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения бронирования."
+        title={modals.thanksTitle}
+        subtitle={modals.thanksSubtitle}
         onClose={onClose}
       >
-        <ThanksBody />
+        <ThanksBody modals={modals} contacts={contacts} />
       </Modal>
     )
   }
 
   return (
-    <Modal title="Запишитесь прямо сейчас" onClose={onClose}>
+    <Modal title={modals.bookingTitle} onClose={onClose}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.field}>
-          <label htmlFor="b-name">Имя*</label>
+          <label htmlFor="b-name">{forms.nameLabel}</label>
           <input
             id="b-name"
             type="text"
-            placeholder="Как вас зовут?"
+            placeholder={forms.namePlaceholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="b-phone">Телефон*</label>
+          <label htmlFor="b-phone">{forms.phoneLabel}</label>
           <PhoneInput id="b-phone" value={phone} onChange={setPhone} required />
         </div>
 
@@ -92,17 +98,13 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
             onChange={(e) => setAgree(e.target.checked)}
           />
           <span>
-            Я принимаю условия{' '}
-            <Link href="/privacy">Политики обработки персональных данных</Link>{' '}
-            и даю согласие на обработку моих персональных данных.
+            {forms.consentPrefix}
+            <Link href="/privacy">{forms.consentLink}</Link>
+            {forms.consentSuffix}
           </span>
         </label>
 
-        {status === 'error' && (
-          <p className={styles.error}>
-            Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.
-          </p>
-        )}
+        {status === 'error' && <p className={styles.error}>{forms.error}</p>}
 
         <SmartCaptcha ref={captchaRef} />
 
@@ -112,7 +114,7 @@ export const BookingModal: FC<{ onClose: () => void }> = ({ onClose }) => {
           type="submit"
           disabled={!canSubmit || status === 'loading'}
         >
-          {status === 'loading' ? 'Отправляем…' : 'Забронировать онлайн'}
+          {status === 'loading' ? forms.sending : forms.submitBooking}
         </Button>
       </form>
     </Modal>

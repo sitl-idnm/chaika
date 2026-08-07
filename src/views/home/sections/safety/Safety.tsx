@@ -2,7 +2,7 @@
 
 import { FC, FormEvent, useRef, useState } from 'react'
 import Link from 'next/link'
-import { CONTACTS } from '@/shared/const/contacts'
+import { type SiteContent } from '@/shared/content/defaults'
 import { submitLead } from '@/shared/lib/leads'
 import { GOALS, ymGoal } from '@/shared/lib/metrika'
 import { isCompleteRuPhone } from '@/shared/lib/phone'
@@ -20,15 +20,16 @@ import { ReviewsWidget } from '@/components/widgets/ReviewsWidget'
 
 import styles from './Safety.module.scss'
 
-const chips = [
-  'Оборудование Petzl, Kong и VENTO — мировые лидеры',
-  'Непрерывная страховка — невозможно отстегнуться на высоте',
-  'Квалифицированные инструкторы с экипировкой для эвакуации',
-  'Ежедневная проверка трасс и снаряжения',
-  'Ежегодная независимая экспертиза'
-]
+type SafetyProps = {
+  data: SiteContent['safety']
+  forms: SiteContent['forms']
+  contacts: SiteContent['contacts']
+}
 
-const ChipGroup: FC<{ ariaHidden?: boolean }> = ({ ariaHidden }) => (
+const ChipGroup: FC<{ chips: string[]; ariaHidden?: boolean }> = ({
+  chips,
+  ariaHidden
+}) => (
   <div className={styles.chipGroup} aria-hidden={ariaHidden}>
     {chips.map((chip) => (
       <span key={chip} className={styles.chip}>
@@ -39,7 +40,7 @@ const ChipGroup: FC<{ ariaHidden?: boolean }> = ({ ariaHidden }) => (
   </div>
 )
 
-const Safety: FC = () => {
+const Safety: FC<SafetyProps> = ({ data, forms, contacts }) => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [agree, setAgree] = useState(false)
@@ -78,14 +79,12 @@ const Safety: FC = () => {
   return (
     <section className={styles.root} id="safety">
       <div className={styles.wrap}>
-        <h2 className={styles.title}>
-          {nbp('Как мы обеспечиваем безопасность')}
-        </h2>
+        <h2 className={styles.title}>{nbp(data.title)}</h2>
 
         <div className={styles.marquee}>
           <div className={styles.track}>
-            <ChipGroup />
-            <ChipGroup ariaHidden />
+            <ChipGroup chips={data.chips} />
+            <ChipGroup chips={data.chips} ariaHidden />
           </div>
         </div>
 
@@ -93,7 +92,7 @@ const Safety: FC = () => {
           <div className={styles.leftCol}>
             {submitted ? (
               <div className={styles.panel}>
-                <h3 className={styles.panelTitle}>Заявка принята!</h3>
+                <h3 className={styles.panelTitle}>{data.successTitle}</h3>
                 <p className={styles.successText}>
                   {name.trim() ? `${name.trim()}, мы` : 'Мы'} перезвоним вам в
                   ближайшее время.
@@ -101,21 +100,21 @@ const Safety: FC = () => {
               </div>
             ) : (
               <form className={styles.panel} onSubmit={handleSubmit}>
-                <h3 className={styles.panelTitle}>Запишитесь прямо сейчас</h3>
+                <h3 className={styles.panelTitle}>{data.formTitle}</h3>
 
                 <div className={styles.field}>
-                  <label htmlFor="name">Имя*</label>
+                  <label htmlFor="name">{forms.nameLabel}</label>
                   <input
                     id="name"
                     type="text"
-                    placeholder="Как вас зовут?"
+                    placeholder={forms.namePlaceholder}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
                 <div className={styles.field}>
-                  <label htmlFor="phone">Телефон*</label>
+                  <label htmlFor="phone">{forms.phoneLabel}</label>
                   <PhoneInput
                     id="phone"
                     value={phone}
@@ -132,19 +131,14 @@ const Safety: FC = () => {
                     onChange={(e) => setAgree(e.target.checked)}
                   />
                   <span>
-                    Я принимаю условия{' '}
-                    <Link href="/privacy">
-                      Политики обработки персональных данных
-                    </Link>{' '}
-                    и даю согласие на&nbsp;обработку моих персональных данных.
+                    {forms.consentPrefix}
+                    <Link href="/privacy">{forms.consentLink}</Link>
+                    {forms.consentSuffix}
                   </span>
                 </label>
 
                 {status === 'error' && (
-                  <p className={styles.error}>
-                    Не удалось отправить заявку. Попробуйте ещё раз или
-                    позвоните нам.
-                  </p>
+                  <p className={styles.error}>{forms.error}</p>
                 )}
 
                 <SmartCaptcha ref={captchaRef} />
@@ -155,30 +149,26 @@ const Safety: FC = () => {
                   type="submit"
                   disabled={!canSubmit || status === 'loading'}
                 >
-                  {status === 'loading'
-                    ? 'Отправляем…'
-                    : 'Забронировать онлайн'}
+                  {status === 'loading' ? forms.sending : forms.submitBooking}
                 </Button>
               </form>
             )}
 
             <div className={styles.panel}>
-              <h3 className={styles.panelSubtitle}>
-                {nbp('Или свяжитесь с нами любым удобным для вас способом:')}
-              </h3>
+              <h3 className={styles.panelSubtitle}>{nbp(data.contactTitle)}</h3>
 
               <div className={styles.actions}>
                 <a
                   className={styles.contactBtn}
-                  href={CONTACTS.phoneHref}
+                  href={contacts.phoneHref}
                   onClick={() => ymGoal(GOALS.clickPhone, { place: 'safety' })}
                 >
                   <Glyph name="phone" />
-                  Позвонить
+                  {data.phoneBtn}
                 </a>
                 <a
                   className={styles.contactBtn}
-                  href={CONTACTS.telegram}
+                  href={contacts.telegram}
                   target="_blank"
                   rel="noreferrer"
                   onClick={() =>
@@ -186,28 +176,21 @@ const Safety: FC = () => {
                   }
                 >
                   <Glyph name="telegram" />
-                  Написать в телеграм
+                  {data.telegramBtn}
                 </a>
               </div>
 
               <div className={styles.contactRow}>
                 <Glyph name="map-pin" className={styles.rowGlyph} />
-                <span>
-                  {nbp(
-                    'Королёв, ул. К.Д. Трофимова, 1/2 (справа от стадиона «Чайка»)'
-                  )}
-                </span>
+                <span>{nbp(contacts.address)}</span>
               </div>
 
               <div className={styles.contactRow}>
                 <Glyph name="clock" className={styles.rowGlyph} />
                 <span>
-                  Июнь–август: с 11:00 до 19:00
+                  {contacts.hours}
                   <br />
-                  <span className={styles.muted}>
-                    В мае и сентябре график может меняться. Позвоните нам
-                    для&nbsp;получения точной информации.
-                  </span>
+                  <span className={styles.muted}>{nbp(contacts.hoursNote)}</span>
                 </span>
               </div>
             </div>

@@ -1,24 +1,11 @@
 import { FC } from 'react'
+import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
 import { Icon } from '@ui/icon'
 
 import { CtaButton } from '@/components/cta/CtaButton'
 
 import styles from './Party.module.scss'
-
-const pills = [
-  { icon: '/icons/icon-gift.svg', label: 'День рождения' },
-  { icon: '/icons/icon-confetti.svg', label: 'Выпускной' },
-  { icon: '/icons/icon-cheers.svg', label: 'Корпоратив' }
-]
-
-const listItems = [
-  'от 4 часов активностей',
-  'Верёвочный парк + лазертаг + безлимитный батут',
-  'Часовая программа на выбор: квест, лазертаг, различные мастер классы и много других интересных активностей',
-  'Фото и видеосъемка',
-  'Быстрое согласование дат и программ'
-]
 
 const CheckBadge: FC = () => (
   <svg
@@ -40,17 +27,15 @@ const CheckBadge: FC = () => (
   </svg>
 )
 
-const Party: FC = () => {
+const Party: FC<{ data: SiteContent['party'] }> = ({ data }) => {
   return (
     <section className={styles.root} id="party">
       <div className={styles.wrap}>
         <div className={styles.left}>
-          <h2 className={styles.title}>
-            {nbp('Устройте незабываемый праздник под ключ')}
-          </h2>
+          <h2 className={styles.title}>{nbp(data.title)}</h2>
 
           <div className={styles.tags}>
-            {pills.map((pill) => (
+            {data.pills.map((pill) => (
               <span key={pill.label} className={styles.tag}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={pill.icon} alt="" className={styles.tagIcon} />
@@ -61,7 +46,7 @@ const Party: FC = () => {
 
           <div className={styles.card}>
             <ul className={styles.list}>
-              {listItems.map((item) => (
+              {data.list.map((item) => (
                 <li key={item}>
                   <CheckBadge />
                   <span>{nbp(item)}</span>
@@ -70,12 +55,12 @@ const Party: FC = () => {
             </ul>
             <span className={styles.price}>
               <Icon name="coins" />
-              {nbp('от 2400 ₽ за человека. родители — бесплатно')}
+              {nbp(data.price)}
             </span>
           </div>
 
           <CtaButton modal="event" block>
-            Оставить заявку
+            {data.cta}
           </CtaButton>
         </div>
 
