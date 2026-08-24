@@ -1,22 +1,26 @@
 /** Google Sheets delivery channel for site leads (same sheet as VK leads). */
 
-import { appendLeadRow, sheetsConfigured } from '@/shared/lib/sheets'
-import { LeadBody, leadTitle } from './lead'
+import { appendLeadRow, buildLeadRow, sheetsConfigured } from '@/shared/lib/sheets'
+import { LeadBody, leadSource } from './lead'
 import type { DeliveryResult } from './telegram'
 
-/** Row layout matches the VK adapter: id | date | name | phone | email | form | campaign | source. */
+/** Row layout matches the shared SHEET_HEADERS (see sheets.ts). */
 function leadToRow(b: LeadBody): string[] {
   const id = `site-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
-  return [
+  return buildLeadRow({
     id,
-    new Date().toISOString(),
-    b.name?.trim() ?? '',
-    b.phone?.trim() ?? '',
-    b.email?.trim() ?? '',
-    leadTitle(b.form),
-    b.page?.trim() ?? '',
-    'site'
-  ]
+    createdAt: new Date(),
+    phone: b.phone?.trim() ?? '',
+    name: b.name?.trim() ?? '',
+    source: leadSource(b.form),
+    email: b.email?.trim() ?? '',
+    eventType: b.eventType?.trim() ?? '',
+    tariff: b.tariff?.trim() ?? '',
+    kids: b.kids?.trim() ?? '',
+    startTime: b.startTime?.trim() ?? '',
+    wantedDate: b.date?.trim() ?? '',
+    page: b.page?.trim() ?? ''
+  })
 }
 
 export async function sendSheet(b: LeadBody): Promise<DeliveryResult> {

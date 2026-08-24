@@ -8,6 +8,8 @@
  * real cabinet token before relying on the cron poller.
  */
 
+import { buildLeadRow } from './sheets'
+
 // verify against live API — new VK Ads cabinet base + lead export endpoint.
 const VK_API_BASE = 'https://ads.vk.com/api/v2'
 const VK_LEADS_PATH = '/lead_ads/leads.json'
@@ -23,18 +25,27 @@ export type VkLead = {
   campaign: string
 }
 
-/** Column order must match GOOGLE_SHEETS_RANGE (default `Leads!A:H`). */
+/** Parse VK's `createdAt` (ISO string or unix epoch) into a Date. */
+function toDate(v: string): Date {
+  if (/^\d+$/.test(v)) {
+    const n = Number(v)
+    return new Date(n < 1e12 ? n * 1000 : n) // 10-digit = seconds
+  }
+  const d = new Date(v)
+  return isNaN(d.getTime()) ? new Date() : d
+}
+
+/** Column order must match the shared SHEET_HEADERS (see sheets.ts). */
 export function leadToRow(lead: VkLead): string[] {
-  return [
-    lead.id,
-    lead.createdAt,
-    lead.name,
-    lead.phone,
-    lead.email,
-    lead.formName,
-    lead.campaign,
-    'vk-ads'
-  ]
+  return buildLeadRow({
+    id: lead.id,
+    createdAt: toDate(lead.createdAt),
+    phone: lead.phone,
+    name: lead.name,
+    source: lead.formName ? `VK · ${lead.formName}` : 'VK',
+    email: lead.email,
+    page: lead.campaign
+  })
 }
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>

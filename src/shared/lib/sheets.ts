@@ -10,6 +10,88 @@ export function sheetsConfigured(): boolean {
   return Boolean(process.env.SHEETS_WEBAPP_URL)
 }
 
+/**
+ * Column layout of the leads sheet. MUST stay in sync with `HEADERS` in
+ * `scripts/apps-script-sheets.gs`. Columns 6–8 (Качество/Комментарий/Результат)
+ * are filled by hand by the manager and are always sent empty on insert.
+ * `id` is a dedup helper kept as the LAST column (hide it in the sheet).
+ */
+export const SHEET_HEADERS = [
+  'Дата',
+  'Время',
+  'Телефон',
+  'Имя',
+  'Источник',
+  'Качество',
+  'Комментарий',
+  'Результат',
+  'E-mail',
+  'Тип мероприятия',
+  'Тариф',
+  'Детей',
+  'Время начала',
+  'Желаемая дата',
+  'Страница',
+  'id'
+] as const
+
+/** Normalised lead ready to be laid out as a sheet row. */
+export type SheetLead = {
+  id: string
+  createdAt: Date
+  phone?: string
+  name?: string
+  source?: string // Источник
+  email?: string
+  eventType?: string
+  tariff?: string
+  kids?: string
+  startTime?: string
+  wantedDate?: string
+  page?: string // Страница
+}
+
+/** Split a Date into Moscow-time Дата (ДД.ММ.ГГГГ) + Время (ЧЧ:ММ). */
+export function mskDateTime(d: Date): { date: string; time: string } {
+  const parts = new Intl.DateTimeFormat('ru-RU', {
+    timeZone: 'Europe/Moscow',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).formatToParts(d)
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? ''
+  return {
+    date: `${get('day')}.${get('month')}.${get('year')}`,
+    time: `${get('hour')}:${get('minute')}`
+  }
+}
+
+/** Lay a normalised lead out in the exact `SHEET_HEADERS` column order. */
+export function buildLeadRow(l: SheetLead): string[] {
+  const { date, time } = mskDateTime(l.createdAt)
+  return [
+    date,
+    time,
+    l.phone ?? '',
+    l.name ?? '',
+    l.source ?? '',
+    '', // Качество — ручное
+    '', // Комментарий — ручное
+    '', // Результат — ручное
+    l.email ?? '',
+    l.eventType ?? '',
+    l.tariff ?? '',
+    l.kids ?? '',
+    l.startTime ?? '',
+    l.wantedDate ?? '',
+    l.page ?? '',
+    l.id
+  ]
+}
+
 /** Append one or more rows. Dedup by lead id happens inside the Apps Script. */
 export async function appendLeadRows(rows: string[][]): Promise<void> {
   const url = process.env.SHEETS_WEBAPP_URL

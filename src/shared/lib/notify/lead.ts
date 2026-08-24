@@ -25,6 +25,17 @@ export function leadTitle(form?: string): string {
   return FORM_TITLES[form ?? ''] ?? '📩 Заявка с сайта'
 }
 
+/** Plain form label (no emoji) for the sheet «Источник» column. */
+export const FORM_SOURCES: Record<string, string> = {
+  booking: 'Бронирование',
+  event: 'Мероприятие',
+  safety: 'Запишитесь'
+}
+
+export function leadSource(form?: string): string {
+  return FORM_SOURCES[form ?? ''] ?? 'Сайт'
+}
+
 /** Ordered [label, value] pairs for the filled-in fields of a lead. */
 export function leadFields(b: LeadBody): Array<[string, string]> {
   const pairs: Array<[string, string]> = []
