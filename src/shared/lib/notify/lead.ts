@@ -20,18 +20,23 @@ export type LeadBody = {
   utm_term?: string
 }
 
+const UTM_FIELDS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term'
+] as const
+
+/** Filled UTM fields as [key, value] pairs (for per-line rendering). */
+export function utmEntries(b: LeadBody): Array<[string, string]> {
+  return UTM_FIELDS.filter((k) => b[k]?.trim()).map((k) => [k, b[k]!.trim()])
+}
+
 /** Compact "utm_source=… utm_medium=…" summary of the filled UTM fields. */
 export function utmSummary(b: LeadBody): string {
-  const keys = [
-    'utm_source',
-    'utm_medium',
-    'utm_campaign',
-    'utm_content',
-    'utm_term'
-  ] as const
-  return keys
-    .filter((k) => b[k]?.trim())
-    .map((k) => `${k}=${b[k]!.trim()}`)
+  return utmEntries(b)
+    .map(([k, v]) => `${k}=${v}`)
     .join(' ')
 }
 

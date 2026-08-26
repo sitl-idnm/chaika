@@ -1,14 +1,33 @@
 /** Telegram delivery channel for site leads. */
 
-import { esc, LeadBody, leadFields, leadTitle } from './lead'
+import { esc, LeadBody, leadFields, leadTitle, utmEntries } from './lead'
 
 function buildMessage(b: LeadBody): string {
-  const lines = [`<b>${esc(leadTitle(b.form))}</b>`, '']
+  const lines = [`<b>${esc(leadTitle(b.form))}</b>`]
+
+  // Main fields — Страница и UTM выносим в отдельные блоки ниже.
   for (const [label, value] of leadFields(b)) {
-    // Keep the page link on its own line, visually separated.
-    if (label === 'Страница') lines.push('')
+    if (label === 'Страница' || label === 'UTM') continue
     lines.push(`<b>${esc(label)}:</b> ${esc(value)}`)
   }
+
+  // Блок «Страница» отделяем пустой строкой.
+  if (b.page?.trim()) {
+    lines.push('', `<b>Страница:</b> ${esc(b.page.trim())}`)
+  }
+
+  // UTM — каждая метка на своей строке, чтобы не было полотна.
+  const utm = utmEntries(b)
+  if (utm.length) {
+    lines.push('', '<b>UTM-метки</b>')
+    for (const [key, value] of utm) {
+      lines.push(`  ${esc(key)}: <code>${esc(value)}</code>`)
+    }
+  }
+
+  // Пустая строка-разделитель между заголовком и первым полем.
+  lines.splice(1, 0, '')
+
   return lines.join('\n')
 }
 
