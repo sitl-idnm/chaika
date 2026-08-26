@@ -13,6 +13,26 @@ export type LeadBody = {
   page?: string
   referrer?: string
   captchaToken?: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_content?: string
+  utm_term?: string
+}
+
+/** Compact "utm_source=… utm_medium=…" summary of the filled UTM fields. */
+export function utmSummary(b: LeadBody): string {
+  const keys = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_content',
+    'utm_term'
+  ] as const
+  return keys
+    .filter((k) => b[k]?.trim())
+    .map((k) => `${k}=${b[k]!.trim()}`)
+    .join(' ')
 }
 
 export const FORM_TITLES: Record<string, string> = {
@@ -51,6 +71,7 @@ export function leadFields(b: LeadBody): Array<[string, string]> {
   add('Время начала', b.startTime)
   add('Желаемая дата', b.date)
   add('Страница', b.page)
+  add('UTM', utmSummary(b))
   return pairs
 }
 

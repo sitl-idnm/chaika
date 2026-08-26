@@ -32,6 +32,11 @@ export const SHEET_HEADERS = [
   'Время начала',
   'Желаемая дата',
   'Страница',
+  'UTM Source',
+  'UTM Medium',
+  'UTM Campaign',
+  'UTM Content',
+  'UTM Term',
   'id'
 ] as const
 
@@ -49,6 +54,11 @@ export type SheetLead = {
   startTime?: string
   wantedDate?: string
   page?: string // Страница
+  utmSource?: string
+  utmMedium?: string
+  utmCampaign?: string
+  utmContent?: string
+  utmTerm?: string
 }
 
 /** Split a Date into Moscow-time Дата (ДД.ММ.ГГГГ) + Время (ЧЧ:ММ). */
@@ -88,6 +98,11 @@ export function buildLeadRow(l: SheetLead): string[] {
     l.startTime ?? '',
     l.wantedDate ?? '',
     l.page ?? '',
+    l.utmSource ?? '',
+    l.utmMedium ?? '',
+    l.utmCampaign ?? '',
+    l.utmContent ?? '',
+    l.utmTerm ?? '',
     l.id
   ]
 }

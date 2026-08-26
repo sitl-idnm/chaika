@@ -1,5 +1,7 @@
 /** Client-side lead submission → POST /api/lead (delivered to Telegram + email). */
 
+import { readUtm } from './utm'
+
 export type LeadForm = 'booking' | 'event' | 'safety'
 
 export type LeadPayload = {
@@ -25,6 +27,7 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...payload,
+        ...readUtm(),
         page: typeof window !== 'undefined' ? window.location.pathname : '',
         referrer: typeof document !== 'undefined' ? document.referrer : ''
       })

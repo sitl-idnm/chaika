@@ -4,6 +4,7 @@ import { getSiteContent } from '@/shared/content'
 import { Footer } from '@modules/footer'
 import { Header } from '@modules/header'
 
+import { UtmCapture } from '@/components/analytics/UtmCapture'
 import { YandexMetrika } from '@/components/analytics/YandexMetrika'
 import { CookieBanner } from '@/components/cookie/CookieBanner'
 import { ModalHost } from '@/components/modal/ModalHost'
@@ -52,6 +53,7 @@ export default async function SiteLayout({
   return (
     <>
       <YandexMetrika />
+      <UtmCapture />
       <div id="root">
         <Header header={content.header} contacts={content.contacts} />
         {children}

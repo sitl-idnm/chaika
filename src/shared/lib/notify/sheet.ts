@@ -19,7 +19,12 @@ function leadToRow(b: LeadBody): string[] {
     kids: b.kids?.trim() ?? '',
     startTime: b.startTime?.trim() ?? '',
     wantedDate: b.date?.trim() ?? '',
-    page: b.page?.trim() ?? ''
+    page: b.page?.trim() ?? '',
+    utmSource: b.utm_source?.trim() ?? '',
+    utmMedium: b.utm_medium?.trim() ?? '',
+    utmCampaign: b.utm_campaign?.trim() ?? '',
+    utmContent: b.utm_content?.trim() ?? '',
+    utmTerm: b.utm_term?.trim() ?? ''
   })
 }
 

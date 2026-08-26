@@ -34,6 +34,11 @@ const HEADERS = [
   'Время начала',
   'Желаемая дата',
   'Страница',
+  'UTM Source',
+  'UTM Medium',
+  'UTM Campaign',
+  'UTM Content',
+  'UTM Term',
   'id'
 ];
 
