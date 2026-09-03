@@ -29,16 +29,18 @@ export const YandexMetrika: FC = () => {
           });
         `}
       </Script>
-      <noscript>
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`https://mc.yandex.ru/watch/${YM_ID}`}
-            style={{ position: 'absolute', left: '-9999px' }}
-            alt=""
-          />
-        </div>
-      </noscript>
+      {/*
+        Render the noscript pixel as a raw HTML string. If we used a JSX <img>,
+        React 19 would auto-emit <link rel="preload" as="image" href=".../watch/ID">
+        in <head>, which fetches the watch pixel for ALL visitors (even with JS)
+        and fires a Metrika hit with no source info — breaking traffic attribution.
+        As a raw string React can't introspect it, so no preload is generated.
+      */}
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<div><img src="https://mc.yandex.ru/watch/${YM_ID}" style="position:absolute;left:-9999px" alt="" /></div>`
+        }}
+      />
     </>
   )
 }
