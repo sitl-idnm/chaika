@@ -24,7 +24,8 @@ const HIDE_IF_CONSENTED = `try{if(localStorage.getItem(${JSON.stringify(
 
 /**
  * Rendered on the server (not after hydration): otherwise the banner text
- * paints ~3 s late on mobile and becomes the LCP element.
+ * paints ~3 s late on mobile. Text is short and small on mobile so the banner
+ * is never the LCP element (it was, at 4,4 s): LCP stays on the hero.
  */
 export const CookieBanner: FC = () => {
   const [visible, setVisible] = useState(true)
@@ -53,7 +54,7 @@ export const CookieBanner: FC = () => {
       >
         <p className={styles.text}>
           {nbp(
-            'Мы используем файлы cookie, чтобы вам было удобнее пользоваться нашим сайтом. Продолжая просмотр, вы соглашаетесь на их использование. Подробнее — в '
+            'Мы используем cookie: Метрика и виджеты Яндекса включаются только после «Принять». Подробнее — в '
           )}
           <Link href="/privacy">Политике обработки персональных данных</Link>
         </p>
