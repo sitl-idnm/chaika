@@ -102,13 +102,13 @@
 .legalName {
   font-size: 16px;
   font-weight: 500;
-  color: var(--light-600);
+  color: var(--light-800);
 }
 
 .legalReq {
   font-size: 16px;
   line-height: 1.2;
-  color: var(--light-600);
+  color: var(--light-800);
   white-space: pre-line;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .muted {
-  color: var(--light-600);
+  color: var(--light-800);
 }
 
 .buttons {
@@ -204,7 +204,7 @@
   padding: 16px;
   border-radius: 12px;
   background: var(--white);
-  color: var(--orange-main);
+  color: var(--orange-cta);
   font-size: 18px;
   font-weight: 500;
   white-space: nowrap;

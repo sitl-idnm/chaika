@@ -149,7 +149,7 @@
 .badge {
   padding: 5px 10px;
   border-radius: var(--radius-chip);
-  background: var(--orange-main);
+  background: var(--orange-cta);
   color: var(--light-main);
   font-size: 12px;
   font-weight: 500;
@@ -181,7 +181,7 @@
   color: var(--dark-600);
 
   .highlight & {
-    color: var(--light-600);
+    color: var(--light-800);
   }
 }
 
@@ -191,7 +191,7 @@
   color: var(--dark-600);
 
   .highlight & {
-    color: var(--light-600);
+    color: var(--light-800);
   }
 }
 
@@ -428,7 +428,7 @@
   padding: 8px 14px;
   border-radius: var(--radius-chip);
   background: var(--orange-100);
-  color: var(--orange-active);
+  color: var(--orange-cta-active);
   font-size: 14px;
   font-weight: 500;
 }
@@ -469,7 +469,7 @@
   font-size: 15px;
   font-weight: 400;
   line-height: 1.45;
-  color: var(--light-600);
+  color: var(--light-800);
 }
 
 .bookingContact {
@@ -492,5 +492,5 @@
 .bookingManager {
   font-size: 14px;
   font-weight: 400;
-  color: var(--light-600);
+  color: var(--light-800);
 }
