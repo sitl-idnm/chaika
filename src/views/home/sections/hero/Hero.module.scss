@@ -27,7 +27,9 @@ $hero-overlay: radial-gradient(
   min-height: 743px;
   border-radius: 24px;
   overflow: hidden;
-  background-image: $hero-overlay, url(/images/hero-desktop.jpg);
+  // URL картинок приходят из Hero.tsx (импорт → /_next/static/media с хешем
+  // и годовым кешем; те же URL идут в <link rel=preload>)
+  background-image: $hero-overlay, var(--hero-desktop);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -35,13 +37,13 @@ $hero-overlay: radial-gradient(
   @include mixins.tablet {
     min-height: 620px;
     border-radius: 0;
-    background-image: $hero-overlay, url(/images/hero-tablet.jpg);
+    background-image: $hero-overlay, var(--hero-tablet);
   }
 
   @include mixins.mobile {
     min-height: 540px;
     border-radius: 0;
-    background-image: $hero-overlay, url(/images/hero-mobile.jpg);
+    background-image: $hero-overlay, var(--hero-mobile);
   }
 }
 

@@ -19,10 +19,15 @@
   }
 
   // keep all flow content above the decorative photo
-  > *:not(.photo) {
+  > *:not(.photo, .photoWrap) {
     position: relative;
     z-index: 1;
   }
+}
+
+// <picture> не создаёт своего бокса — img позиционируется от .wrap, как раньше
+.photoWrap {
+  display: contents;
 }
 
 .photo {

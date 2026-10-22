@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import Image from 'next/image'
+import kidsPhoto from '@public/images/kids.png'
 import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
 import { Icon } from '@ui/icon'
@@ -66,10 +68,12 @@ const Party: FC<{ data: SiteContent['party'] }> = ({ data }) => {
 
         <div className={styles.photo}>
           <div className={styles.ring} />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/kids.png"
+          {/* WebP/AVIF нужной ширины, lazy (ниже первого экрана).
+              sizes: мобилка 89% ширины, иначе ≤ 666×571 (высота ограничена 571) */}
+          <Image
+            src={kidsPhoto}
             alt="Дети в парке Чайка"
+            sizes="(max-width: 560px) 89vw, 682px"
             className={styles.photoImg}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}

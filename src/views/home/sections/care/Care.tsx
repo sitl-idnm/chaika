@@ -1,4 +1,6 @@
 import { FC, Fragment } from 'react'
+import { getImageProps } from 'next/image'
+import carePhoto from '@public/images/care.png'
 import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
@@ -18,6 +20,18 @@ const CareCard: FC<{ item: CareItem }> = ({ item }) => (
   </div>
 )
 
+// 1×1 прозрачный GIF: на планшете/мобилке фото скрыто (display:none) —
+// <source> с ним не даёт браузеру скачать саму картинку.
+const BLANK_GIF =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
+// next/image: WebP/AVIF, srcset под 1112px (1x/2x), lazy — блок ниже первого экрана
+const { props: photoProps } = getImageProps({
+  src: carePhoto,
+  alt: '',
+  sizes: '1112px'
+})
+
 const Care: FC<{ data: SiteContent['care'] }> = ({ data }) => {
   const row1 = data.cards.slice(0, 2)
   const row2 = data.cards.slice(2, 5)
@@ -26,8 +40,11 @@ const Care: FC<{ data: SiteContent['care'] }> = ({ data }) => {
   return (
     <section className={styles.root}>
       <div className={styles.wrap}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/care.png" alt="" className={styles.photo} />
+        <picture className={styles.photoWrap}>
+          <source media="(max-width: 900px)" srcSet={BLANK_GIF} />
+          {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+          <img {...photoProps} className={styles.photo} />
+        </picture>
 
         <h2 className={styles.title}>
           {titleLines.map((line, i) => (
