@@ -11,7 +11,7 @@ export const ReviewsWidget: FC = () => (
       placeholderClassName={`${styles.reviewsFrame} ${styles.stub}`}
       src="https://yandex.ru/maps-reviews-widget/193894342382?comments"
       title="Отзывы о парке «Чайка» — Яндекс Карты"
-      placeholder="Загружаем отзывы с Яндекс Карт…"
+      placeholder="Показать отзывы с Яндекс Карт"
     />
     <a
       className={styles.reviewsLink}

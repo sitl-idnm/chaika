@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, ReactNode, useEffect, useRef, useState } from 'react'
+import { CONSENT_EVENT, hasConsent } from '@/shared/lib/metrika'
 
 import styles from './widgets.module.scss'
 
@@ -27,8 +28,10 @@ function preconnect(href: string) {
 
 /**
  * Iframe виджета Яндекса, который не грузится на старте страницы: вместо него
- * статичная заглушка того же размера. Виджет подгружается при прокрутке к блоку
- * (за ~1 экран — preconnect, за 300px — сам iframe) или сразу по клику.
+ * статичная заглушка того же размера. Виджеты Яндекса ставят свои cookie
+ * (yandexuid и др.), поэтому сами по прокрутке они грузятся только после
+ * «Принять» в cookie-баннере (за ~1 экран — preconnect, за 300px — iframe).
+ * До согласия — только по клику на заглушку: это явное действие посетителя.
  */
 export const LazyFrame: FC<LazyFrameProps> = ({
   src,
@@ -40,10 +43,21 @@ export const LazyFrame: FC<LazyFrameProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [show, setShow] = useState(false)
+  const [consent, setConsent] = useState(false)
+
+  useEffect(() => {
+    if (hasConsent()) {
+      setConsent(true)
+      return
+    }
+    const onConsent = () => setConsent(true)
+    window.addEventListener(CONSENT_EVENT, onConsent, { once: true })
+    return () => window.removeEventListener(CONSENT_EVENT, onConsent)
+  }, [])
 
   useEffect(() => {
     const el = ref.current
-    if (show || !el) return
+    if (show || !consent || !el) return
     if (typeof IntersectionObserver === 'undefined') {
       setShow(true)
       return
@@ -71,7 +85,7 @@ export const LazyFrame: FC<LazyFrameProps> = ({
       far.disconnect()
       near.disconnect()
     }
-  }, [show, src])
+  }, [show, consent, src])
 
   return (
     <div ref={ref} className={styles.lazy}>
