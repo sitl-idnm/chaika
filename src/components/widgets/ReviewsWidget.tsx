@@ -1,14 +1,17 @@
 import { FC } from 'react'
 
+import { LazyFrame } from './LazyFrame'
 import styles from './widgets.module.scss'
 
 /** Yandex.Maps reviews widget for the «Чайка» org (embedded iframe). */
 export const ReviewsWidget: FC = () => (
   <div className={styles.reviews}>
-    <iframe
-      className={styles.reviewsFrame}
+    <LazyFrame
+      frameClassName={styles.reviewsFrame}
+      placeholderClassName={`${styles.reviewsFrame} ${styles.stub}`}
       src="https://yandex.ru/maps-reviews-widget/193894342382?comments"
       title="Отзывы о парке «Чайка» — Яндекс Карты"
+      placeholder="Загружаем отзывы с Яндекс Карт…"
     />
     <a
       className={styles.reviewsLink}
