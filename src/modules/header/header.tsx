@@ -47,6 +47,7 @@ const Header: FC<HeaderProps> = ({ header, contacts }) => {
             href={contacts.maps}
             target="_blank"
             rel="noreferrer"
+            aria-label={`${header.routeText} — Яндекс Карты`}
           >
             <Glyph name="map-pin" className={styles.glyph} />
             <span className={styles.routeText}>{header.routeText}</span>
