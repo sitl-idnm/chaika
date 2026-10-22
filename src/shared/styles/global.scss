@@ -17,6 +17,9 @@
 
   --orange-main: rgb(217, 107, 43);
   --orange-active: rgb(205, 90, 24);
+  // Кнопки: затемнённый оранжевый, контраст ≥4,5 с --light-main и белым (WCAG AA)
+  --orange-cta: rgb(176, 82, 31);
+  --orange-cta-active: rgb(156, 70, 25);
   --orange-800: rgba(217, 107, 43, 0.8);
   --orange-600: rgba(217, 107, 43, 0.6);
   --orange-400: rgba(217, 107, 43, 0.4);

@@ -29,7 +29,7 @@
 }
 
 .root_orange {
-  background: var(--orange-main);
+  background: var(--orange-cta);
   color: var(--light-main);
 
   &:hover {
@@ -37,13 +37,13 @@
   }
 
   &:active {
-    background: var(--orange-active);
+    background: var(--orange-cta-active);
   }
 }
 
 .root_light {
   background: var(--white);
-  color: var(--orange-main);
+  color: var(--orange-cta);
 
   &:hover {
     opacity: 0.7;
@@ -52,7 +52,7 @@
 
 // Оранжевый бордер — только для белых кнопок в блоках «4 трассы» и «Батут».
 .root_bordered {
-  box-shadow: inset 0 0 0 1px var(--orange-main);
+  box-shadow: inset 0 0 0 1px var(--orange-cta);
 }
 
 .block {
