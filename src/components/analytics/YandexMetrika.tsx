@@ -1,46 +1,38 @@
 'use client'
 
-import { FC } from 'react'
-import Script from 'next/script'
-import { YM_ID } from '@/shared/lib/metrika'
+import { FC, useEffect } from 'react'
+import {
+  CONSENT_EVENT,
+  hasConsent,
+  initMetrika,
+  rememberLanding,
+  YM_ID
+} from '@/shared/lib/metrika'
 
 /**
- * Injects the Yandex.Metrika counter (id from NEXT_PUBLIC_YM_ID).
- * Renders nothing when the id is missing so local/dev builds stay quiet.
+ * Yandex.Metrika counter (id from NEXT_PUBLIC_YM_ID), started ONLY after
+ * consent in the cookie banner: no tag.js, no hits, no cookies before
+ * «Принять». Consent from an earlier visit → init right away.
+ *
+ * No `<noscript>` pixel: without JS the banner can't be accepted, so a no-JS
+ * hit would be tracking without consent. (It was also the source of the stray
+ * attribution-less hit fixed in aac16ba.)
+ *
+ * Renders nothing; does nothing when the id is missing (local/dev builds).
  */
 export const YandexMetrika: FC = () => {
-  if (!YM_ID) return null
+  useEffect(() => {
+    if (!YM_ID) return
+    if (hasConsent()) {
+      initMetrika()
+      return
+    }
 
-  return (
-    <>
-      <Script id="yandex-metrika" strategy="afterInteractive">
-        {`
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    const landing = rememberLanding()
+    const onConsent = () => initMetrika(landing)
+    window.addEventListener(CONSENT_EVENT, onConsent, { once: true })
+    return () => window.removeEventListener(CONSENT_EVENT, onConsent)
+  }, [])
 
-          ym(${YM_ID}, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-          });
-        `}
-      </Script>
-      {/*
-        Render the noscript pixel as a raw HTML string. If we used a JSX <img>,
-        React 19 would auto-emit <link rel="preload" as="image" href=".../watch/ID">
-        in <head>, which fetches the watch pixel for ALL visitors (even with JS)
-        and fires a Metrika hit with no source info — breaking traffic attribution.
-        As a raw string React can't introspect it, so no preload is generated.
-      */}
-      <noscript
-        dangerouslySetInnerHTML={{
-          __html: `<div><img src="https://mc.yandex.ru/watch/${YM_ID}" style="position:absolute;left:-9999px" alt="" /></div>`
-        }}
-      />
-    </>
-  )
+  return null
 }

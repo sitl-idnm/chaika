@@ -2,23 +2,27 @@
 
 import { FC, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { GOALS, ymGoal } from '@/shared/lib/metrika'
+import {
+  giveConsent,
+  GOALS,
+  hasConsent,
+  ymGoal
+} from '@/shared/lib/metrika'
 import { nbp } from '@/shared/lib/typography'
 import { Button } from '@ui/button'
 
 import styles from './cookie.module.scss'
 
-const STORAGE_KEY = 'chaika-cookie-accepted'
-
 export const CookieBanner: FC = () => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) setVisible(true)
+    if (!hasConsent()) setVisible(true)
   }, [])
 
   const accept = () => {
-    localStorage.setItem(STORAGE_KEY, '1')
+    // Метрика стартует только здесь (см. YandexMetrika) — цель уже в очередь ym
+    giveConsent()
     ymGoal(GOALS.cookieAccept)
     setVisible(false)
   }
