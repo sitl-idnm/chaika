@@ -21,7 +21,9 @@ const interTight = Inter_Tight({
 
 const arsenal = Arsenal({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '700'],
+  // 700 нигде не рендерится (hero/404 — 400; .brandMark/.loginTitle в
+  // админке не используются) — не тянем лишние файлы на первый экран.
+  weight: ['400'],
   variable: '--font-arsenal',
   display: 'swap'
 })
