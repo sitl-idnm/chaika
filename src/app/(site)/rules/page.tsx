@@ -1,13 +1,23 @@
 import { getSiteContent } from '@/shared/content'
+import { OG_IMAGES, pageSocialMeta } from '@/shared/lib/socialMeta'
 
 import { renderPolicyBody } from '../privacy/policyBody'
 import styles from '../privacy/privacy.module.scss'
 
+const TITLE = 'Правила посещения'
+const DESCRIPTION =
+  'Правила посещения верёвочного парка «Чайка» в Королёве: допуск, экипировка, безопасность на трассах.'
+
 export const metadata = {
-  title: 'Правила посещения',
-  description:
-    'Правила посещения верёвочного парка «Чайка» в Королёве: допуск, экипировка, безопасность на трассах.',
-  alternates: { canonical: '/rules' }
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: '/rules' },
+  ...pageSocialMeta({
+    path: '/rules',
+    title: TITLE,
+    description: DESCRIPTION,
+    image: OG_IMAGES.rules
+  })
 }
 
 const RulesPage = async () => {

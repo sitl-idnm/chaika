@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { getSiteContent } from '@/shared/content'
+import { OG_IMAGES } from '@/shared/lib/socialMeta'
 import { Footer } from '@modules/footer'
 import { Header } from '@modules/header'
 
@@ -29,7 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
       url: contacts.site,
       siteName: meta.applicationName,
       title: meta.title,
-      description: meta.description
+      description: meta.description,
+      images: [OG_IMAGES.home]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.description,
+      images: [OG_IMAGES.home.url]
     },
     robots: {
       index: true,

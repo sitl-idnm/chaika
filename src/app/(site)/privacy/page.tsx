@@ -1,13 +1,23 @@
 import { getSiteContent } from '@/shared/content'
+import { OG_IMAGES, pageSocialMeta } from '@/shared/lib/socialMeta'
 
 import { renderPolicyBody } from './policyBody'
 import styles from './privacy.module.scss'
 
+const TITLE = 'Политика конфиденциальности'
+const DESCRIPTION =
+  'Политика обработки персональных данных и пользовательское соглашение верёвочного парка «Чайка».'
+
 export const metadata = {
-  title: 'Политика конфиденциальности',
-  description:
-    'Политика обработки персональных данных и пользовательское соглашение верёвочного парка «Чайка».',
-  alternates: { canonical: '/privacy' }
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: '/privacy' },
+  ...pageSocialMeta({
+    path: '/privacy',
+    title: TITLE,
+    description: DESCRIPTION,
+    image: OG_IMAGES.privacy
+  })
 }
 
 const PrivacyPage = async () => {
