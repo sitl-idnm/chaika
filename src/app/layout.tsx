@@ -34,7 +34,12 @@ export default function RootLayout({
   children: ReactNode
 }>) {
   return (
-    <html lang="ru" className={`${interTight.variable} ${arsenal.variable}`}>
+    <html
+      lang="ru"
+      className={`${interTight.variable} ${arsenal.variable}`}
+      // data-consent ставит инлайн-скрипт CookieBanner до гидратации
+      suppressHydrationWarning
+    >
       <body>
         <Provider>{children}</Provider>
       </body>

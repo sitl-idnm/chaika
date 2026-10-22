@@ -171,3 +171,9 @@ button {
     background: var(--light-main);
   }
 }
+
+// Cookie-баннер при уже данном согласии: data-consent ставит инлайн-скрипт
+// CookieBanner до гидратации, чтобы баннер из SSR не мигал
+html[data-consent] [data-cookie-banner] {
+  display: none;
+}
