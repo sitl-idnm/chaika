@@ -35,6 +35,26 @@ export async function readContentOverride(): Promise<Record<string, unknown>> {
   return rows[0]?.data ?? {}
 }
 
+/** When the content was last saved in the admin (null if unknown). */
+export async function readContentUpdatedAt(): Promise<Date | null> {
+  const url = restUrl()
+  const key = process.env.SUPABASE_ANON_KEY
+  if (!url || !key) return null
+
+  try {
+    const res = await fetch(`${url}?id=eq.1&select=updated_at`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      next: { tags: [CONTENT_TAG], revalidate: 60 }
+    })
+    if (!res.ok) return null
+    const rows = (await res.json()) as { updated_at?: string }[]
+    const date = rows[0]?.updated_at ? new Date(rows[0].updated_at) : null
+    return date && !Number.isNaN(date.getTime()) ? date : null
+  } catch {
+    return null
+  }
+}
+
 /** Overwrite the override JSON. Requires the service-role key. */
 export async function writeContentOverride(
   data: Record<string, unknown>
