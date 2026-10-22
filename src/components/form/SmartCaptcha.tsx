@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState
-} from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 
 /**
  * Invisible Yandex SmartCaptcha.
@@ -15,12 +9,18 @@ import {
  * with a validation token (the challenge modal appears only when Yandex deems
  * the request suspicious, so the form layout is never affected).
  *
+ * The script (~0.9 MB) is NOT loaded with the page: it starts loading when the
+ * form is opened (`loadOn="mount"`, modals) or first focused / touched
+ * (`loadOn="focus"`, inline form). `execute()` waits for the load, so a fast
+ * submit never goes out without a token.
+ *
  * Without `NEXT_PUBLIC_SMARTCAPTCHA_SITE_KEY` the component is a no-op and
  * `execute()` resolves with an empty string, so forms keep working in dev / until
  * keys are configured. The server (`/api/lead`) then skips validation to match.
  */
 
 const SITE_KEY = process.env.NEXT_PUBLIC_SMARTCAPTCHA_SITE_KEY
+const LOAD_TIMEOUT = 10_000
 const SCRIPT_SRC =
   'https://smartcaptcha.yandexcloud.net/captcha.js?render=onload'
 
@@ -42,6 +42,11 @@ type SmartCaptchaApi = {
   ) => number
   execute: (widgetId: number) => void
   reset: (widgetId: number) => void
+}
+
+type SmartCaptchaProps = {
+  /** When to load the script: on mount (modal opened) or on first form focus. */
+  loadOn?: 'mount' | 'focus'
 }
 
 declare global {
@@ -82,74 +87,104 @@ function loadScript(): Promise<SmartCaptchaApi> {
   })
 }
 
-export const SmartCaptcha = forwardRef<SmartCaptchaHandle>((_props, ref) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const widgetId = useRef<number | null>(null)
-  const apiRef = useRef<SmartCaptchaApi | null>(null)
-  const pending = useRef<{
-    resolve: (t: string) => void
-    reject: (e: Error) => void
-  } | null>(null)
-  const [ready, setReady] = useState(false)
+export const SmartCaptcha = forwardRef<SmartCaptchaHandle, SmartCaptchaProps>(
+  ({ loadOn = 'focus' }, ref) => {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const widgetId = useRef<number | null>(null)
+    const apiRef = useRef<SmartCaptchaApi | null>(null)
+    const initRef = useRef<Promise<boolean> | null>(null)
+    const unmounted = useRef(false)
+    const pending = useRef<{
+      resolve: (t: string) => void
+      reject: (e: Error) => void
+    } | null>(null)
 
-  useEffect(() => {
-    if (!SITE_KEY) return
-    let cancelled = false
+    /** Load the script and render the widget once; resolves `true` when usable. */
+    const init = useCallback((): Promise<boolean> => {
+      if (!SITE_KEY) return Promise.resolve(false)
+      if (initRef.current) return initRef.current
 
-    loadScript()
-      .then((api) => {
-        if (cancelled || !containerRef.current) return
-        apiRef.current = api
-        widgetId.current = api.render(containerRef.current, {
-          sitekey: SITE_KEY,
-          invisible: true,
-          hideShield: true,
-          callback: (token) => {
-            pending.current?.resolve(token)
-            pending.current = null
-            if (widgetId.current !== null) api.reset(widgetId.current)
-          },
-          'error-callback': () => {
-            pending.current?.reject(new Error('captcha error'))
-            pending.current = null
-            if (widgetId.current !== null) api.reset(widgetId.current)
-          }
+      initRef.current = loadScript()
+        .then((api) => {
+          if (unmounted.current || !containerRef.current) return false
+          apiRef.current = api
+          widgetId.current = api.render(containerRef.current, {
+            sitekey: SITE_KEY,
+            invisible: true,
+            hideShield: true,
+            callback: (token) => {
+              pending.current?.resolve(token)
+              pending.current = null
+              if (widgetId.current !== null) api.reset(widgetId.current)
+            },
+            'error-callback': () => {
+              pending.current?.reject(new Error('captcha error'))
+              pending.current = null
+              if (widgetId.current !== null) api.reset(widgetId.current)
+            }
+          })
+          return true
         })
-        setReady(true)
-      })
-      .catch(() => {
-        // Leave `ready` false — execute() falls back to resolving empty.
-      })
+        // Failed to load — execute() falls back to resolving empty.
+        .catch(() => false)
 
-    return () => {
-      cancelled = true
-    }
-  }, [])
+      return initRef.current
+    }, [])
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      execute: () =>
-        new Promise<string>((resolve, reject) => {
+    useEffect(() => {
+      unmounted.current = false
+      if (!SITE_KEY) return
+
+      if (loadOn === 'mount') {
+        init()
+        return () => {
+          unmounted.current = true
+        }
+      }
+
+      const form = containerRef.current?.closest('form')
+      const start = () => {
+        init()
+        events.forEach((e) => form?.removeEventListener(e, start))
+      }
+      const events = ['focusin', 'pointerdown', 'touchstart'] as const
+      events.forEach((e) =>
+        form?.addEventListener(e, start, { passive: true })
+      )
+
+      return () => {
+        unmounted.current = true
+        events.forEach((e) => form?.removeEventListener(e, start))
+      }
+    }, [init, loadOn])
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        execute: async () => {
           // Disabled or failed to load — behave as a no-op so the form submits.
-          if (
-            !SITE_KEY ||
-            !ready ||
-            apiRef.current === null ||
-            widgetId.current === null
-          ) {
-            resolve('')
-            return
+          const ok = await Promise.race([
+            init(),
+            // Script stuck on a slow network — don't hang the submit forever.
+            new Promise<boolean>((r) => setTimeout(() => r(false), LOAD_TIMEOUT))
+          ])
+          if (!ok || apiRef.current === null || widgetId.current === null) {
+            return ''
           }
-          pending.current = { resolve, reject }
-          apiRef.current.execute(widgetId.current)
-        })
-    }),
-    [ready]
-  )
+          const api = apiRef.current
+          const id = widgetId.current
+          return new Promise<string>((resolve, reject) => {
+            pending.current = { resolve, reject }
+            api.execute(id)
+          })
+        }
+      }),
+      [init]
+    )
 
-  if (!SITE_KEY) return null
-  return <div ref={containerRef} aria-hidden />
-})
+    if (!SITE_KEY) return null
+    return <div ref={containerRef} aria-hidden />
+  }
+)
 
 SmartCaptcha.displayName = 'SmartCaptcha'

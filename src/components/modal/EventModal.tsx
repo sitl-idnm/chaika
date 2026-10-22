@@ -214,7 +214,7 @@ export const EventModal: FC<{ onClose: () => void } & ModalContent> = ({
 
         {status === 'error' && <p className={styles.error}>{forms.error}</p>}
 
-        <SmartCaptcha ref={captchaRef} />
+        <SmartCaptcha ref={captchaRef} loadOn="mount" />
 
         <Button
           variant="orange"
