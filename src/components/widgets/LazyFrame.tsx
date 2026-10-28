@@ -101,7 +101,9 @@ export const LazyFrame: FC<LazyFrameProps> = ({
           type="button"
           className={placeholderClassName}
           onClick={() => setShow(true)}
-          aria-label={title}
+          aria-label={
+            typeof placeholder === 'string' ? `${placeholder}: ${title}` : title
+          }
         >
           {placeholder}
         </button>

@@ -1,6 +1,6 @@
 /**
  * DEFAULT_CONTENT — the single source of truth for every editable string / link
- * on the public site. The /admin panel stores an override JSON in Supabase which
+ * on the public site. The /admin panel stores an override JSON in PostgreSQL which
  * is deep-merged over this object (see `getContent.ts`). Components read the
  * merged result, so if the DB is empty or unreachable the site renders these
  * values unchanged.

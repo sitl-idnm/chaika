@@ -30,8 +30,8 @@ function deepMerge<T>(base: T, override: unknown): T {
 }
 
 /**
- * Per-request memoised, fully-merged site content. The underlying Supabase read
- * is a tagged fetch (see siteContentStore) so pages stay static and revalidate
+ * Per-request memoised, fully-merged site content. The underlying PostgreSQL read
+ * is cached under a tag (see siteContentStore) so pages stay static and revalidate
  * via revalidateTag(CONTENT_TAG) on save. Falls back to defaults on any error.
  */
 export const getSiteContent = cache(async (): Promise<SiteContent> => {

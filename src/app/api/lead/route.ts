@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server'
 import { verifyCaptcha } from '@/shared/lib/captcha'
 import { sendEmail } from '@/shared/lib/notify/email'
 import type { LeadBody } from '@/shared/lib/notify/lead'
-import { sendSheet } from '@/shared/lib/notify/sheet'
 import { sendTelegram } from '@/shared/lib/notify/telegram'
 
 export const runtime = 'nodejs'
 
-/** Best-effort client IP for captcha validation (Vercel sets x-forwarded-for). */
+/** Best-effort client IP for captcha validation (nginx sets x-forwarded-for). */
 function clientIp(req: Request): string | undefined {
   const fwd = req.headers.get('x-forwarded-for')
   return fwd ? fwd.split(',')[0].trim() : undefined
@@ -41,13 +40,9 @@ export async function POST(req: Request) {
   }
 
   // Deliver to all channels; one failing channel must not fail the others.
-  const [tg, email, sheet] = await Promise.all([
-    sendTelegram(body),
-    sendEmail(body),
-    sendSheet(body)
-  ])
+  const [tg, email] = await Promise.all([sendTelegram(body), sendEmail(body)])
 
-  const attempted = [tg, email, sheet].filter((r) => !r.skipped)
+  const attempted = [tg, email].filter((r) => !r.skipped)
   const delivered = attempted.some((r) => r.ok)
 
   if (attempted.length > 0 && !delivered) {

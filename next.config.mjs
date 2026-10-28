@@ -1,8 +1,9 @@
 /**
- * CSP — пока только Report-Only: нарушения пишутся в консоль, но ничего не
- * блокируется. Разрешены домены Метрики (+Вебвизор), Яндекс.Карт/отзывов и
+ * CSP (enforce). Разрешены домены Метрики (+Вебвизор), Яндекс.Карт/отзывов и
  * SmartCaptcha. 'unsafe-inline' в script-src нужен для inline-скриптов Next и
- * счётчика Метрики. Перед переводом в enforce — собрать отчёты с прода.
+ * счётчика Метрики. Переведена из Report-Only 28.10.2026: на живом сайте нет
+ * нарушений ни до, ни после согласия на cookie (Метрика, карта, отзывы, капча).
+ * Новый сторонний сервис — сначала добавить его домены сюда.
  */
 const YANDEX = [
   'https://*.yandex.ru',
@@ -14,7 +15,7 @@ const YANDEX = [
   'https://smartcaptcha.yandexcloud.net'
 ].join(' ')
 
-const CSP_REPORT_ONLY = [
+const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: ${YANDEX}`,
   `style-src 'self' 'unsafe-inline' ${YANDEX}`,
@@ -54,7 +55,7 @@ const securityHeaders = [
     value:
       'camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()'
   },
-  { key: 'Content-Security-Policy-Report-Only', value: CSP_REPORT_ONLY }
+  { key: 'Content-Security-Policy', value: CSP }
 ]
 
 /** @type {import('next').NextConfig} */

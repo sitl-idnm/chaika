@@ -1,9 +1,9 @@
 import { CSSProperties, FC } from 'react'
-import heroDesktop from '@public/images/hero-desktop.jpg'
-import heroMobile from '@public/images/hero-mobile.jpg'
-import heroTablet from '@public/images/hero-tablet.jpg'
 import { type SiteContent } from '@/shared/content'
 import { nbp } from '@/shared/lib/typography'
+import heroDesktop from '@public/images/hero-desktop.webp'
+import heroMobile from '@public/images/hero-mobile.webp'
+import heroTablet from '@public/images/hero-tablet.webp'
 import { Button } from '@ui/button'
 import { Icon, IconName } from '@ui/icon'
 
@@ -36,6 +36,7 @@ const Hero: FC<{ data: SiteContent['hero'] }> = ({ data }) => {
           as="image"
           href={img.src}
           media={img.media}
+          type="image/webp"
           fetchPriority="high"
         />
       ))}

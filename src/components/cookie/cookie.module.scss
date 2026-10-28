@@ -3,18 +3,19 @@
 .root {
   position: fixed;
   z-index: 90;
+  right: 24px;
   bottom: 24px;
-  left: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
-  max-width: 800px;
-  padding: 16px;
+  max-width: 520px;
+  padding: 14px 16px;
   border-radius: 12px;
   background: var(--light-main);
   box-shadow: 0 12px 40px rgba(15, 15, 15, 0.24);
 
   // компактно: текст баннера не должен становиться LCP первого экрана
+  // На ПК — у правого края и узкий: кнопки первого экрана (слева) остаются видны
   @include mixins.mobile {
     right: 8px;
     bottom: 8px;
@@ -33,9 +34,9 @@
 
 .text {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.3;
   color: var(--dark-main);
 
   @include mixins.mobile {
