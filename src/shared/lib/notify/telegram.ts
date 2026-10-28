@@ -1,6 +1,58 @@
 /** Telegram delivery channel for site leads. */
 
+import type { Agent } from 'node:http'
+import { request } from 'node:https'
+import { HttpsProxyAgent } from 'https-proxy-agent'
+import { SocksProxyAgent } from 'socks-proxy-agent'
+
 import { esc, LeadBody, leadFields, leadTitle, utmEntries } from './lead'
+
+/** The Bot API host is unreachable from RU hosting — go through a proxy. */
+const TIMEOUT_MS = 10_000
+
+// TELEGRAM_PROXY_URL: socks5://user:pass@host:port or http(s)://user:pass@host:port
+let proxyAgent: Agent | null | undefined
+function getProxyAgent(): Agent | null {
+  if (proxyAgent !== undefined) return proxyAgent
+  const url = process.env.TELEGRAM_PROXY_URL
+  proxyAgent = !url
+    ? null
+    : url.startsWith('socks')
+      ? new SocksProxyAgent(url)
+      : new HttpsProxyAgent(url)
+  return proxyAgent
+}
+
+/** POST JSON to the Bot API via node:https (agent = optional proxy). */
+function postJson(
+  url: string,
+  payload: unknown
+): Promise<{ status: number; body: string }> {
+  const data = JSON.stringify(payload)
+  return new Promise((resolve, reject) => {
+    const req = request(
+      url,
+      {
+        method: 'POST',
+        agent: getProxyAgent() ?? undefined,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(data)
+        },
+        timeout: TIMEOUT_MS
+      },
+      (res) => {
+        let body = ''
+        res.setEncoding('utf8')
+        res.on('data', (chunk) => (body += chunk))
+        res.on('end', () => resolve({ status: res.statusCode ?? 0, body }))
+      }
+    )
+    req.on('timeout', () => req.destroy(new Error('telegram timeout')))
+    req.on('error', reject)
+    req.end(data)
+  })
+}
 
 function buildMessage(b: LeadBody): string {
   const lines = [`<b>${esc(leadTitle(b.form))}</b>`]
@@ -43,23 +95,18 @@ export async function sendTelegram(b: LeadBody): Promise<DeliveryResult> {
   }
 
   try {
-    const res = await fetch(
+    const res = await postJson(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: buildMessage(b),
-          parse_mode: 'HTML',
-          disable_web_page_preview: true
-        })
+        chat_id: chatId,
+        text: buildMessage(b),
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
       }
     )
 
-    if (!res.ok) {
-      const detail = await res.text().catch(() => '')
-      console.error('[lead] Telegram error', res.status, detail)
+    if (res.status !== 200) {
+      console.error('[lead] Telegram error', res.status, res.body)
       return { ok: false, error: `telegram ${res.status}` }
     }
     return { ok: true }
